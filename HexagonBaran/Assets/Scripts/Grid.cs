@@ -9,6 +9,22 @@ public class Grid
     private int _height;
     private int _width;
 
+    public int Width 
+    { 
+        get
+        {
+            return _width;
+        }
+    }
+
+    public int Height
+    {
+        get
+        {
+            return _height;
+        }
+    }
+
     public Cell this[int x, int y]
     {
         get
@@ -23,7 +39,6 @@ public class Grid
         set
         {
             _cells[_height * x + y] = value;
-            _cells[_height * x + y].LocalPosition = new Vector2(x, y);
         }
     }
 

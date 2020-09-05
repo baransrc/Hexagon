@@ -4,7 +4,7 @@ public class Cell : MonoBehaviour
 {
     public Hexagon Hexagon { get; set; }
 
-    public Vector2 LocalPosition
+    public Vector3 LocalPosition
     {
         get
         {

@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-public class Hexagon : MonoBehaviour
+public abstract class Hexagon : MonoBehaviour
 {
-    private SpriteRenderer _spriteRenderer;
+    protected Color _color;
+    protected GameManager _gameManager;
 
-    public Vector3 Position 
+    public Cell Cell{ get; set; }
+
+    public Vector3 LocalPosition 
     { 
         get
         {
-            return transform.position; 
+            return transform.localPosition; 
         } 
 
         set
         {
-            transform.position = value;
+            transform.localPosition = value;
         }
     }
 
-    private void Awake()
-    {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    public abstract void Initialize(GameManager gameManager, Color color);
+
+    public abstract void Explode();
+
+    protected abstract void Recycle();
 }
