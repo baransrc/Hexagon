@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _selectedBackground;
     public Hexagon Hexagon { get; set; }
-
+    
     public Vector3 LocalPosition
     {
         get
@@ -25,9 +27,14 @@ public class Cell : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawCube(transform.position - Vector3.forward, new Vector3(1, 1, 1));
-    //}
+    private void Awake()
+    {
+        SetSelected(false);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        _selectedBackground.enabled = selected;
+    }
+
 }

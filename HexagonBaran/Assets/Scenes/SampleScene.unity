@@ -171,6 +171,8 @@ MonoBehaviour:
   _hexagonOuterOffset: 0.1
   _hexagonUnitSize: 1
   _hexagonFallOffset: 10
+  _touchPointPrefab: {fileID: 9180986051363437920, guid: 2229f1df3c0796a44b9cc210b0b72f06,
+    type: 3}
   _cellPrefab: {fileID: 8291618590747419505, guid: 70fa55c686e1a324591c8f65c4c48d15,
     type: 3}
   _colorHexagonPrefab: {fileID: 1319416598336085269, guid: e1b69064ef386cd4095b4037760342cf,

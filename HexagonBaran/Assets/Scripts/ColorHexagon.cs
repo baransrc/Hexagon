@@ -28,7 +28,7 @@ public class ColorHexagon : Hexagon
     public void SetColor(Color color)
     {
         _color = color;
-        _spriteRenderer.color = _gameManager.GetColorRGBA(_color);
+        _spriteRenderer.color = _gameManager.GetColorRgba(_color);
     }
 
     protected override void Recycle()

@@ -6,7 +6,6 @@ using UnityEngine;
 public class FallManager : MonoBehaviour
 {
     private GameManager _gameManager;
-
     private Grid _grid;
 
     [SerializeField] private float _timeToFallOneCell;
@@ -47,11 +46,6 @@ public class FallManager : MonoBehaviour
 
     private Cell GetLowestEmptyCell(int x, int y)
     {
-        if ( y == 0)
-        {
-            return _grid[x, y];
-        }
-
         var i = y - 1;
 
         while (i >= 0 && _grid[x, i].Empty)
