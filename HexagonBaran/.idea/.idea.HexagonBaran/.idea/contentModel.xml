@@ -6,19 +6,20 @@
     <e p="D:\Repositories\HexagonBaran\HexagonBaran" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="ColorPair.cs" t="Include" />
-        <e p="ColorPalette.cs" t="Include" />
-        <e p="FallManager.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Cell.cs" t="Include" />
           <e p="Color.cs" t="Include" />
           <e p="ColorHexagon.cs" t="Include" />
+          <e p="ColorPair.cs" t="Include" />
+          <e p="ColorPalette.cs" t="Include" />
+          <e p="FallManager.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="Grid.cs" t="Include" />
           <e p="Hexagon.cs" t="Include" />
+          <e p="TouchManager.cs" t="Include" />
+          <e p="TouchPoint.cs" t="Include" />
+          <e p="TouchPointData.cs" t="Include" />
         </e>
-        <e p="TouchPoint.cs" t="Include" />
-        <e p="TouchPointData.cs" t="Include" />
       </e>
       <e p="HexagonBaran.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />

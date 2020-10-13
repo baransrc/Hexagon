@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ColorPalette : MonoBehaviour
 {
-
     [SerializeField] private List<ColorPair> _colorPalette;
 
     private void Awake()

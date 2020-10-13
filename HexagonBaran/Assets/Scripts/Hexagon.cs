@@ -22,6 +22,28 @@ public abstract class Hexagon : MonoBehaviour
         }
     }
 
+    public void GoToCell(Cell newCell)
+    {
+        StartCoroutine(MoveToPosition(0.2f, newCell.LocalPosition));
+        Cell = newCell;
+    }
+
+    private IEnumerator MoveToPosition(float duration, Vector2 endPosition)
+    {
+        var step = 0f;
+
+        while (step < 1f)
+        {
+            step += Time.deltaTime / duration;
+            
+            step = (step > 1f) ? 1f : step;
+
+            LocalPosition = Vector2.Lerp(LocalPosition, endPosition, step);
+            
+            yield return null;
+        }
+    }
+
     public abstract void Initialize(GameManager gameManager, Color color);
 
     public abstract void Explode();

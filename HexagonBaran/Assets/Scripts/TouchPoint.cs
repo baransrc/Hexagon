@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(Collider2D))]
 public class TouchPoint : MonoBehaviour
@@ -40,8 +41,12 @@ public class TouchPoint : MonoBehaviour
             _cells[index] = value;
         }
     }
-    
-    
+
+    public Cell[] GetCells()
+    {
+        return _cells;
+    }
+
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -69,10 +74,10 @@ public class TouchPoint : MonoBehaviour
 
         midPoint.transform.position = average;
     }
-
-    public void DetectTouch(Vector3 touchPosition)
+    
+    public void DetectTouch(bool detected)
     {
-        SelectCells(_collider2D.OverlapPoint(touchPosition));
+        SelectCells(detected);
     }
 
     private void SelectCells(bool selected)

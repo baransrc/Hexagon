@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(ColorPalette))]
 public class GameManager : MonoBehaviour
@@ -14,23 +16,144 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _cellPrefab;
     [SerializeField] private GameObject _colorHexagonPrefab;
     [SerializeField] private List<Color> _allowedColors;
+    [SerializeField] private TouchManager _touchManager;
 
     private float _hexagonHeight;
     private float _hexagonWidth;
     private float _hexagonInnerOffset;
     private ColorPalette _colorPalette;
-
+    
+    private List<TouchPoint> _touchPoints;
+    private TouchPoint _selectedTouchPoint;
+    
     public Grid Grid { get; private set; }
- 
+    
     private void Awake()
     {
         _colorPalette = GetComponent<ColorPalette>();
+        _touchPoints = new List<TouchPoint>();
 
+        SubscribeToEvents();
+        
         SetupWidthAndHeight();
         SetupGrid();
         SetupTouchPoints();
     }
 
+    private void OnDestroy()
+    {
+        UnsubscribeFromEvents();
+    }
+
+    private void SubscribeToEvents()
+    {
+        _touchManager.OnDraggedRight += TurnClockwise;
+        _touchManager.OnDraggedLeft += TurnCounterClockwise;
+        _touchManager.OnDraggedUp += TurnCounterClockwise;
+        _touchManager.OnDraggedDown += TurnClockwise;
+        _touchManager.OnClicked += ProcessTouch;
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        _touchManager.OnDraggedRight -= TurnClockwise;
+        _touchManager.OnDraggedLeft -= TurnCounterClockwise;
+        _touchManager.OnDraggedUp -= TurnCounterClockwise;
+        _touchManager.OnDraggedDown -= TurnClockwise;
+        _touchManager.OnClicked -= ProcessTouch;
+    }
+
+    /* Make TurnClockwise and TurnCounterClockWise have their targets turning one turn while there is no match or
+       search for matches consisting of their cells, if there is one, turn to that combination, 
+       if there is no match in all turns, then turn 360 degrees and stop.
+    */
+    
+    private void TurnClockwise()
+    {
+        if (_selectedTouchPoint == null)
+        {
+            return;
+        }
+        
+        var hexagons = new List<Hexagon>();
+        var cells = _selectedTouchPoint.GetCells();
+
+        foreach (var cell in cells)
+        {
+            hexagons.Add(cell.Hexagon);
+        }
+
+        for (var i = 0; i < hexagons.Count; i++)
+        {
+            var current = hexagons[(i + 1) % hexagons.Count];
+            
+            current.GoToCell(cells[i]);
+            
+            cells[i].Hexagon = current;
+        }
+    }
+
+    private void TurnCounterClockwise()
+    {
+        if (_selectedTouchPoint == null)
+        {
+            return;
+        }
+        
+        var hexagons = new List<Hexagon>();
+        var cells = _selectedTouchPoint.GetCells();
+        
+        foreach (var cell in cells)
+        {
+            hexagons.Add(cell.Hexagon);
+        }
+        
+        for (var i = 0; i < hexagons.Count; i++)
+        {
+            var current = hexagons[(i + hexagons.Count - 1) % hexagons.Count];
+            
+            current.GoToCell(cells[i]);
+            
+            cells[i].Hexagon = current;
+        }
+    }
+
+    private void ProcessTouch(Vector3 position)
+    {
+        var hit2D = Physics2D.Raycast(position, Vector2.zero);
+
+        if (hit2D.collider == null)
+        {
+            if (_selectedTouchPoint == null)
+            {
+                return;
+            }
+            
+            _selectedTouchPoint.DetectTouch(false);
+            _selectedTouchPoint = null;
+            
+            return;
+        }
+
+        var touchPointGameObject = hit2D.collider.gameObject;
+        
+        if (!touchPointGameObject.CompareTag("TouchPoint"))
+        {
+            return;
+        }
+
+        if (_selectedTouchPoint != null)
+        {
+            _selectedTouchPoint.DetectTouch(false);
+        }
+        
+        var touchPoint = touchPointGameObject.GetComponent<TouchPoint>();
+
+        touchPoint.DetectTouch(true);
+
+        _selectedTouchPoint = touchPoint;
+    }
+    
     public UnityEngine.Color GetColorRgba(Color color)
     {
         return _colorPalette.GetColor(color);
@@ -114,6 +237,8 @@ public class GameManager : MonoBehaviour
         return new Cell [3] { Grid[newX,y], Grid[newX+1,y], Grid[(newX % 2 == 0) ? newX+1 : newX, y+1]};
     }
 
+    
+    // TODO: Fix this.
     private Cell[] GetCellGroupMiddleLeft(int x, int y)
     {
         if (y == _gridHeight - 1)
@@ -121,7 +246,7 @@ public class GameManager : MonoBehaviour
             return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y], Grid[x, y-1]} 
                           : new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x % 2 == 0 ? x : x-1, y - 1]};
         }
-        return x == 0 ? new Cell [3] { Grid[x,y], Grid[x,y+1], Grid[x+1, y]} 
+        return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y+1], Grid[x+1, y]} 
                       : new Cell [3] { Grid[x,y], Grid[x-1,y], Grid[(x % 2 == 0) ? x-1 : x, y+1]};
     }
 
@@ -235,6 +360,7 @@ public class GameManager : MonoBehaviour
         {
             var touchPoint = Instantiate(_touchPointPrefab).GetComponent<TouchPoint>();
             touchPoint.Initialize(data);
+            _touchPoints.Add(touchPoint);
         }
         
         touchPointData.Clear();
