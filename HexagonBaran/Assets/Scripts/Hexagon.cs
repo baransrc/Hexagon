@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Hexagon : MonoBehaviour
@@ -8,6 +9,8 @@ public abstract class Hexagon : MonoBehaviour
     protected GameManager _gameManager;
 
     public Cell Cell{ get; set; }
+
+    private Queue<Cell> _turnQueue;
 
     public Vector3 LocalPosition 
     { 
@@ -22,27 +25,64 @@ public abstract class Hexagon : MonoBehaviour
         }
     }
 
-    public void GoToCell(Cell newCell)
+    public Color Color
     {
-        StartCoroutine(MoveToPosition(0.2f, newCell.LocalPosition));
-        Cell = newCell;
-    }
-
-    private IEnumerator MoveToPosition(float duration, Vector2 endPosition)
-    {
-        var step = 0f;
-
-        while (step < 1f)
+        get
         {
-            step += Time.deltaTime / duration;
-            
-            step = (step > 1f) ? 1f : step;
-
-            LocalPosition = Vector2.Lerp(LocalPosition, endPosition, step);
-            
-            yield return null;
+            return _color;
         }
+    }        
+    
+    public void AddToTurnDestination(Cell newCell)
+    {
+        if (_turnQueue == null)
+        {
+            _turnQueue = new Queue<Cell>();
+        }
+        
+        _turnQueue.Enqueue(newCell);
     }
+
+    public void ExecuteTurns()
+    {
+        StartCoroutine(ExecuteTurnsCoroutine(0.5f, true));
+    }
+    
+    private IEnumerator ExecuteTurnsCoroutine(float durationOneCell, bool lockBoard = false)
+    {
+        if (lockBoard)
+        {
+            _gameManager.LockMovement();    
+        }
+
+        while (_turnQueue.Count > 0)
+        {
+            var step = 0f;
+            
+            Cell = _turnQueue.Dequeue();
+            
+            var endPosition = Cell.LocalPosition;
+
+            while (step < 1f)
+            {
+                step += Time.deltaTime / durationOneCell;
+            
+                step = (step > 1f) ? 1f : step;
+
+                LocalPosition = Vector2.Lerp(LocalPosition, endPosition, step);
+            
+                yield return null;
+            }
+        }
+        
+        if (lockBoard)
+        {
+            _gameManager.UnlockMovement();    
+        }
+        
+        _gameManager.ReleaseSelectedTouchPoint();
+    }
+    
 
     public abstract void Initialize(GameManager gameManager, Color color);
 

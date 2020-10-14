@@ -22,24 +22,39 @@ public class GameManager : MonoBehaviour
     private float _hexagonWidth;
     private float _hexagonInnerOffset;
     private ColorPalette _colorPalette;
-    
+
+    private Dictionary<int, List<TouchPoint>> _touchPointsByCellId; // This holds touch points that include a certain cell using unique cell Ids.
     private List<TouchPoint> _touchPoints;
     private TouchPoint _selectedTouchPoint;
+    private FallManager _fallManager;
+
+    private int _movementLock;
     
     public Grid Grid { get; private set; }
-    
+    public bool Changed { get; set; }
+
     private void Awake()
     {
         _colorPalette = GetComponent<ColorPalette>();
         _touchPoints = new List<TouchPoint>();
+        _touchPointsByCellId = new Dictionary<int, List<TouchPoint>>();
+        _fallManager = GetComponent<FallManager>();
+        _movementLock = 0;
 
         SubscribeToEvents();
         
         SetupWidthAndHeight();
         SetupGrid();
         SetupTouchPoints();
+        
+        PopulateTouchPointsByCellId();
     }
 
+    private void Start()
+    {
+
+    }
+    
     private void OnDestroy()
     {
         UnsubscribeFromEvents();
@@ -63,59 +78,114 @@ public class GameManager : MonoBehaviour
         _touchManager.OnClicked -= ProcessTouch;
     }
 
-    /* Make TurnClockwise and TurnCounterClockWise have their targets turning one turn while there is no match or
-       search for matches consisting of their cells, if there is one, turn to that combination, 
-       if there is no match in all turns, then turn 360 degrees and stop.
-    */
-    
-    private void TurnClockwise()
+    private void LookForMatches()
     {
-        if (_selectedTouchPoint == null)
+        var cellsToExplode = new Dictionary<int, Cell>();
+        
+        foreach (var touchPoint in _touchPoints)
+        {
+            if (!touchPoint.CellsHaveSameColoredHexagons())
+            {
+                continue;
+            }
+
+            var cells = touchPoint.GetCells();
+
+            foreach (var cell in cells)
+            {
+                if (cellsToExplode.ContainsKey(cell.Id))
+                {
+                    continue;
+                }
+                
+                cellsToExplode.Add(cell.Id, cell);
+            }
+        }
+
+        foreach (var pair in cellsToExplode)
+        {
+            pair.Value.Hexagon.Explode();
+        }
+    }
+
+    public void LockMovement()
+    {
+        _movementLock++;
+    }
+
+    public void UnlockMovement()
+    {
+        _movementLock--;
+        _movementLock = _movementLock < 0 ? 0 : _movementLock;
+    }
+    
+    private void Turn(bool isClockwise)
+    {
+        if (_movementLock > 0)
         {
             return;
         }
         
-        var hexagons = new List<Hexagon>();
+        if (_selectedTouchPoint == null)
+        {
+            return;
+        }
+       
         var cells = _selectedTouchPoint.GetCells();
+
+        for (int j = 0; j < cells.Length; j++)
+        {
+            var hexagons = new List<Hexagon>();
+            
+            foreach (var cell in cells)
+            {
+                hexagons.Add(cell.Hexagon);
+            }
+
+            for (var i = 0; i < hexagons.Count; i++)
+            {
+                var next = isClockwise ? (i + 1) % hexagons.Count : (i + hexagons.Count - 1) % hexagons.Count;
+                var current = hexagons[next];
+                
+                current.AddToTurnDestination(cells[i]);
+                
+                cells[i].Hexagon = current;
+            }
+
+            var stopTurning = false;
+            
+            foreach (var cell in cells)
+            {
+                var touchPointsContainingCell = _touchPointsByCellId[cell.Id];
+                if (touchPointsContainingCell.Exists(touchPoint => touchPoint.CellsHaveSameColoredHexagons()))
+                {
+                    stopTurning = true;
+                    continue;
+                }
+            }
+
+            if (stopTurning)
+            {
+                break;
+            }
+        }
 
         foreach (var cell in cells)
         {
-            hexagons.Add(cell.Hexagon);
+            cell.Hexagon.ExecuteTurns();
         }
 
-        for (var i = 0; i < hexagons.Count; i++)
-        {
-            var current = hexagons[(i + 1) % hexagons.Count];
-            
-            current.GoToCell(cells[i]);
-            
-            cells[i].Hexagon = current;
-        }
+        Changed = true;
+    }
+    
+    private void TurnClockwise()
+    {
+        Turn(true);
     }
 
     private void TurnCounterClockwise()
     {
-        if (_selectedTouchPoint == null)
-        {
-            return;
-        }
-        
-        var hexagons = new List<Hexagon>();
-        var cells = _selectedTouchPoint.GetCells();
-        
-        foreach (var cell in cells)
-        {
-            hexagons.Add(cell.Hexagon);
-        }
-        
-        for (var i = 0; i < hexagons.Count; i++)
-        {
-            var current = hexagons[(i + hexagons.Count - 1) % hexagons.Count];
-            
-            current.GoToCell(cells[i]);
-            
-            cells[i].Hexagon = current;
-        }
+        Turn(false);
     }
 
     private void ProcessTouch(Vector3 position)
@@ -200,7 +270,31 @@ public class GameManager : MonoBehaviour
                 cell.LocalPosition = position - offset;
 
                 Grid[i, j] = cell;
+            }
+        }
+        
+        FillWithHexagon();
+    }
 
+    public void FillWithHexagon()
+    {
+        var width = (((_gridWidth) - 1f) * _hexagonOuterOffset) + ((_gridWidth - 1) * _hexagonWidth * 0.75f);
+        var height = (_hexagonHeight * (_gridHeight + 0.5f)) + (_gridHeight * _hexagonOuterOffset);
+        var offset = new Vector3(width * 0.5f, height * 0.25f);
+
+        for (int i = 0; i < _gridWidth; i++)
+        {
+            for (int j = 0; j < _gridHeight; j++)
+            {
+                var cell = Grid[i, j];
+
+                if (!cell.Empty)
+                {
+                    continue;
+                }
+
+                Changed = true;
+                
                 var hexagon = GetColorHexagon();
 
                 hexagon.Initialize(this, GetRandomColor());
@@ -210,6 +304,17 @@ public class GameManager : MonoBehaviour
                 cell.Hexagon = hexagon;
             }
         }
+    }
+
+    public void ReleaseSelectedTouchPoint()
+    {
+        if (_selectedTouchPoint == null)
+        {
+            return;
+        }
+        
+        _selectedTouchPoint.DetectTouch(false);
+        _selectedTouchPoint = null;
     }
 
     private void SetupTouchPoints()
@@ -236,9 +341,7 @@ public class GameManager : MonoBehaviour
         
         return new Cell [3] { Grid[newX,y], Grid[newX+1,y], Grid[(newX % 2 == 0) ? newX+1 : newX, y+1]};
     }
-
     
-    // TODO: Fix this.
     private Cell[] GetCellGroupMiddleLeft(int x, int y)
     {
         if (y == _gridHeight - 1)
@@ -246,8 +349,15 @@ public class GameManager : MonoBehaviour
             return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y], Grid[x, y-1]} 
                           : new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x % 2 == 0 ? x : x-1, y - 1]};
         }
+
+        if (y == 0)
+        {
+            return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y+1], Grid[x+1, y]} 
+                : new Cell [3] { Grid[x,y], Grid[x-1,y], Grid[(x % 2 == 0) ? x-1 : x, y+1]};
+        }
+        
         return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y+1], Grid[x+1, y]} 
-                      : new Cell [3] { Grid[x,y], Grid[x-1,y], Grid[(x % 2 == 0) ? x-1 : x, y+1]};
+                      : new Cell [3] { Grid[x,y], Grid[x-1,y], Grid[x-1, (x % 2 == 0) ? y+1 : y-1]};
     }
 
     private Cell[] GetCellGroupUpperLeft(int x, int y)
@@ -366,8 +476,39 @@ public class GameManager : MonoBehaviour
         touchPointData.Clear();
     }
 
+    private void PopulateTouchPointsByCellId()
+    {
+        foreach (var touchPoint in _touchPoints)
+        {
+            var cells = touchPoint.GetCells();
+            
+            foreach (var cell in cells)
+            {
+                if (!_touchPointsByCellId.ContainsKey(cell.Id))
+                {
+                    _touchPointsByCellId.Add(cell.Id, new List<TouchPoint>());
+                }
+                
+                _touchPointsByCellId[cell.Id].Add(touchPoint);
+            }
+        }
+    }
+    
     private Vector3 GetPositionByIndex(float i, float j)
     {
         return new Vector3(i * (_hexagonInnerOffset * 3f + _hexagonOuterOffset), (j * (_hexagonHeight * 0.5f + _hexagonOuterOffset)) + (((i + 1) % 2) * (_hexagonHeight * 0.25f + _hexagonOuterOffset * 0.5f)));
+    }
+
+    private void Update()
+    {
+        _fallManager.Fall();
+
+        FillWithHexagon();
+
+        if (_movementLock < 1 && Changed)
+        {
+            LookForMatches();
+            Changed = false;
+        }
     }
 }

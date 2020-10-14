@@ -16,7 +16,7 @@ public class FallManager : MonoBehaviour
         _grid = _gameManager.Grid;
     }
 
-    private void Fall()
+    public void Fall()
     {
         for (var j = 0; j < _grid.Height; j++)
         {
@@ -33,6 +33,12 @@ public class FallManager : MonoBehaviour
                 var lowestEmptyCell = GetLowestEmptyCell(i, j);
 
                 cell.Hexagon = null;
+
+                if (hexagon.Cell == null || lowestEmptyCell.Id != hexagon.Cell.Id) // A change occurs.
+                {
+                    _gameManager.Changed = true;
+                }
+                
                 hexagon.Cell = lowestEmptyCell;
                 hexagon.Cell.Hexagon = hexagon;
                 
@@ -56,10 +62,5 @@ public class FallManager : MonoBehaviour
         i++;
 
         return _grid[x, i];
-    }
-
-    private void Update()
-    {
-        Fall();
     }
 }

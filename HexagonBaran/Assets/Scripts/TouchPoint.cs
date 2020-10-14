@@ -65,7 +65,7 @@ public class TouchPoint : MonoBehaviour
             throw new InvalidOperationException("TouchPoint must have 3 Cells.");
         }
         
-        // CalculateMiddlePointPosition();
+        CalculateMiddlePointPosition();
     }
 
     private void CalculateMiddlePointPosition()
@@ -77,7 +77,15 @@ public class TouchPoint : MonoBehaviour
     
     public void DetectTouch(bool detected)
     {
+        midPoint.enabled = detected;
         SelectCells(detected);
+    }
+
+    public bool CellsHaveSameColoredHexagons()
+    {
+        var color = _cells[0].Hexagon.Color;
+
+        return _cells.All(cell => cell.Hexagon.Color == color);
     }
 
     private void SelectCells(bool selected)
