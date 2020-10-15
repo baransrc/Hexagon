@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _hexagonFallOffset;
     [SerializeField] private GameObject _touchPointPrefab;
     [SerializeField] private GameObject _cellPrefab;
-    [SerializeField] private GameObject _colorHexagonPrefab;
     [SerializeField] private List<Color> _allowedColors;
     [SerializeField] private TouchManager _touchManager;
 
@@ -238,7 +237,7 @@ public class GameManager : MonoBehaviour
 
     private ColorHexagon GetColorHexagon()
     {
-        return Instantiate(_colorHexagonPrefab).GetComponent<ColorHexagon>();
+        return Pool.SharedInstance.GetPooledObject(PoolingId.ColorHexagon).GetComponent<ColorHexagon>();
     }
 
     /// <summary>
@@ -302,6 +301,7 @@ public class GameManager : MonoBehaviour
                 hexagon.LocalPosition = GetPositionByIndex(i, j + _hexagonFallOffset) - offset;
 
                 cell.Hexagon = hexagon;
+                hexagon.Cell = cell;
             }
         }
     }
@@ -505,7 +505,7 @@ public class GameManager : MonoBehaviour
 
         FillWithHexagon();
 
-        if (_movementLock < 1 && Changed)
+        if (!_fallManager.Falling && _movementLock < 1 && Changed)
         {
             LookForMatches();
             Changed = false;

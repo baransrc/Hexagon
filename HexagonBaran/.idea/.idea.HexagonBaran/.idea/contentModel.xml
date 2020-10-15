@@ -16,6 +16,9 @@
           <e p="GameManager.cs" t="Include" />
           <e p="Grid.cs" t="Include" />
           <e p="Hexagon.cs" t="Include" />
+          <e p="Pool.cs" t="Include" />
+          <e p="PoolingId.cs" t="Include" />
+          <e p="PoolItem.cs" t="Include" />
           <e p="TouchManager.cs" t="Include" />
           <e p="TouchPoint.cs" t="Include" />
           <e p="TouchPointData.cs" t="Include" />

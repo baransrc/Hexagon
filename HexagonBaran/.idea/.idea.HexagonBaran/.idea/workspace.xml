@@ -20,19 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17ebd9ed-e538-4242-b122-6b7eafcec5b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/TouchPoint.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/TouchPoint.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TouchPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TouchPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Circle.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Circle.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Hexagon_Full.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Hexagon_Full.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Hexagon_Full.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Hexagon_Full.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,10 +44,15 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/TouchManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ColorPalette.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Cell.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TouchPoint.cs" />
+        <option value="$PROJECT_DIR$/Assets/Pool.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PoolItem.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Pool.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
   </component>
@@ -104,6 +102,7 @@
       <workItem from="1602517991079" duration="3025000" />
       <workItem from="1602619388192" duration="6445000" />
       <workItem from="1602687610510" duration="13457000" />
+      <workItem from="1602759544283" duration="3861000" />
     </task>
     <servers />
   </component>

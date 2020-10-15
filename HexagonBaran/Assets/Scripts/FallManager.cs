@@ -7,17 +7,21 @@ public class FallManager : MonoBehaviour
 {
     private GameManager _gameManager;
     private Grid _grid;
-
+    
     [SerializeField] private float _timeToFallOneCell;
 
+    public bool Falling { get; private set; }
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
         _grid = _gameManager.Grid;
+        Falling = false;
     }
 
     public void Fall()
     {
+        Falling = false;
+        
         for (var j = 0; j < _grid.Height; j++)
         {
             for (var i = 0; i < _grid.Width; i++)
@@ -44,6 +48,7 @@ public class FallManager : MonoBehaviour
                 
                 if (hexagon.Cell.LocalPosition != hexagon.LocalPosition)
                 {
+                    Falling = true;
                     hexagon.LocalPosition = Vector3.Lerp(hexagon.LocalPosition, hexagon.Cell.LocalPosition, Time.deltaTime / _timeToFallOneCell);
                 }
             }

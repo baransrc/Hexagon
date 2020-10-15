@@ -33,7 +33,15 @@ public class ColorHexagon : Hexagon
 
     protected override void Recycle()
     {
-        DestroyImmediate(gameObject);
+        SetColor(Color.Colorless);
+        
+        Cell.Hexagon = null;
+        Cell = null;
+
+        LocalPosition = Pool.SharedInstance.ItemSpawnLocation;
+        
+        _gameManager = null;
+        gameObject.SetActive(false);
     }
 }
 
