@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class Hexagon : MonoBehaviour
 {
-    protected Color _color;
+    protected Colors _color;
     protected GameManager _gameManager;
 
     public Cell Cell{ get; set; }
@@ -25,7 +25,7 @@ public abstract class Hexagon : MonoBehaviour
         }
     }
 
-    public Color Color
+    public Colors Color
     {
         get
         {
@@ -84,7 +84,7 @@ public abstract class Hexagon : MonoBehaviour
     }
     
 
-    public abstract void Initialize(GameManager gameManager, Color color);
+    public abstract void Initialize(GameManager gameManager, Colors color);
 
     public abstract void Explode();
 

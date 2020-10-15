@@ -28,7 +28,7 @@ public class ColorPalette : MonoBehaviour
         }
     }
 
-    public UnityEngine.Color GetColor(Color color)
+    public UnityEngine.Color GetColor(Colors color)
     {
         return _colorPalette.Find(x => x.Color == color).RGBA;
     }

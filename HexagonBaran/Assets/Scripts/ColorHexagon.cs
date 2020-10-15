@@ -18,14 +18,14 @@ public class ColorHexagon : Hexagon
         Recycle();
     }
 
-    public override void Initialize(GameManager gameManager, Color color)
+    public override void Initialize(GameManager gameManager, Colors color)
     {
         _gameManager = gameManager;
         
         SetColor(color);
     }
 
-    public void SetColor(Color color)
+    public void SetColor(Colors color)
     {
         _color = color;
         _spriteRenderer.color = _gameManager.GetColorRgba(_color);
@@ -33,7 +33,7 @@ public class ColorHexagon : Hexagon
 
     protected override void Recycle()
     {
-        SetColor(Color.Colorless);
+        SetColor(Colors.Colorless);
         
         Cell.Hexagon = null;
         Cell = null;

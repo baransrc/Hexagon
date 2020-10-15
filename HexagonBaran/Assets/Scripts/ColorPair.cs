@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 [System.Serializable]
 public class ColorPair
 {
-    public Color Color;
+    public Colors Color;
     public UnityEngine.Color RGBA;
 }
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(ColorPalette))]
@@ -14,8 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _hexagonFallOffset;
     [SerializeField] private GameObject _touchPointPrefab;
     [SerializeField] private GameObject _cellPrefab;
-    [SerializeField] private List<Color> _allowedColors;
+    [SerializeField] private List<Colors> _allowedColors;
     [SerializeField] private TouchManager _touchManager;
+    [SerializeField] private ScoreManager scoreManager;
 
     private float _hexagonHeight;
     private float _hexagonWidth;
@@ -28,6 +31,8 @@ public class GameManager : MonoBehaviour
     private FallManager _fallManager;
 
     private int _movementLock;
+
+    public int Score { get; private set; }
     
     public Grid Grid { get; private set; }
     public bool Changed { get; set; }
@@ -45,6 +50,8 @@ public class GameManager : MonoBehaviour
         SetupWidthAndHeight();
         SetupGrid();
         SetupTouchPoints();
+        
+        scoreManager.DisplayScore(Score);
         
         PopulateTouchPointsByCellId();
     }
@@ -101,10 +108,21 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        var scoreToAdd = cellsToExplode.Count * 5;
+
         foreach (var pair in cellsToExplode)
         {
             pair.Value.Hexagon.Explode();
         }
+
+        if (scoreToAdd == 0)
+        {
+            return;
+        }
+        
+        Score += scoreToAdd;
+        
+        Pool.SharedInstance.GetPooledObject(PoolingId.ScoreObject).GetComponent<ScoreObject>().ShowScore(scoreToAdd);
     }
 
     public void LockMovement()
@@ -223,12 +241,12 @@ public class GameManager : MonoBehaviour
         _selectedTouchPoint = touchPoint;
     }
     
-    public UnityEngine.Color GetColorRgba(Color color)
+    public Color GetColorRgba(Colors color)
     {
         return _colorPalette.GetColor(color);
     }
 
-    private Color GetRandomColor()
+    private Colors GetRandomColor()
     {
         var random = Random.Range(0, _allowedColors.Count);
 
@@ -507,7 +525,8 @@ public class GameManager : MonoBehaviour
 
         if (!_fallManager.Falling && _movementLock < 1 && Changed)
         {
-            LookForMatches();
+            LookForMatches(); // There is an unnecessary execution of this because of one of the booleans.
+            scoreManager.DisplayScore(Score);
             Changed = false;
         }
     }

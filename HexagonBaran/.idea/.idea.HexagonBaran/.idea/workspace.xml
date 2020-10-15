@@ -23,9 +23,14 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Color.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Colors.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Color.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Colors.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorPair.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorPalette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorPalette.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,10 +53,13 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/TouchPoint.cs" />
         <option value="$PROJECT_DIR$/Assets/Pool.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PoolItem.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Pool.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Pool.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Colors.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ScoreObject.cs" />
+        <option value="$PROJECT_DIR$/Assets/ScoreManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
@@ -102,7 +110,7 @@
       <workItem from="1602517991079" duration="3025000" />
       <workItem from="1602619388192" duration="6445000" />
       <workItem from="1602687610510" duration="13457000" />
-      <workItem from="1602759544283" duration="3861000" />
+      <workItem from="1602759544283" duration="7983000" />
     </task>
     <servers />
   </component>
