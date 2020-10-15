@@ -19,10 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Colors> _allowedColors;
     [SerializeField] private TouchManager _touchManager;
     [SerializeField] private ScoreManager scoreManager;
-    
+    [SerializeField] private CameraShake cameraShake;
     public delegate void TurnEndManager();
     public event TurnEndManager OnTurnEnded;
-        
 
     private float _hexagonHeight;
     private float _hexagonWidth;
@@ -135,6 +134,8 @@ public class GameManager : MonoBehaviour
             return;
         }
         
+        cameraShake.TriggerShake();
+        
         Score += scoreToAdd;
         
         Pool.SharedInstance.GetPooledObject(PoolingId.ScoreObject).GetComponent<ScoreObject>().ShowScore(scoreToAdd);
@@ -158,6 +159,11 @@ public class GameManager : MonoBehaviour
     
     private void Turn(bool isClockwise)
     {
+        if (_fallManager.Falling)
+        {
+            return;
+        }
+        
         if (_movementLock > 0)
         {
             return;
@@ -237,6 +243,16 @@ public class GameManager : MonoBehaviour
 
     private void ProcessTouch(Vector3 position)
     {
+        if (_fallManager.Falling)
+        {
+            return;
+        }
+
+        if (_movementLock > 0)
+        {
+            return;
+        }
+        
         var hit2D = Physics2D.Raycast(position, Vector2.zero);
 
         if (hit2D.collider == null)
@@ -588,7 +604,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         _fallManager.Fall();
-
+        
         Fill();
         
         Match();

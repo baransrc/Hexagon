@@ -29,17 +29,19 @@ public class TouchManager : MonoBehaviour
 
     private void DetectTouch()
     {
-        var touchPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+#if UNITY_EDITOR
+        
+        var mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
-            _touchStartPos = touchPosition;
+            _touchStartPos = mousePosition;
         }
 
         else if (Input.GetMouseButtonUp(0))
         {
             _touchIsRegistered = true;
-            _touchEndPos = touchPosition;
+            _touchEndPos = mousePosition;
         }
 
         else if (Input.GetMouseButton(0))
@@ -51,6 +53,32 @@ public class TouchManager : MonoBehaviour
         {
             _touchIsRegistered = false;
         }
+
+#elif UNITY_ANDROID || UNITY_IOS
+
+        if (Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+            var touchPosition = _mainCamera.ScreenToWorldPoint(touch.position);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                _touchStartPos = touchPosition;
+                
+                return;
+            }
+
+            if (touch.phase == TouchPhase.Ended)
+            {
+                _touchIsRegistered = true;
+                _touchEndPos = touchPosition;
+                
+                return;
+            }
+            
+            _touchIsRegistered = false;
+        }
+#endif
     }
 
     private void ProcessTouch()
@@ -58,7 +86,10 @@ public class TouchManager : MonoBehaviour
         if (!_touchIsRegistered)
             return;
 
-        var direction = (_touchEndPos - _touchStartPos).normalized;
+        var subs = new Vector2((int)_touchEndPos.x - (int)_touchStartPos.x, 
+                                       (int)_touchEndPos.y - (int)_touchStartPos.y);
+
+        var direction = subs.normalized;
 
         if (direction == Vector2.zero) // This is just a click or touch.
         {

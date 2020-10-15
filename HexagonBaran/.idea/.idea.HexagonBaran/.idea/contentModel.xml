@@ -8,6 +8,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="BombHexagon.cs" t="Include" />
+          <e p="CameraShake.cs" t="Include" />
           <e p="Cell.cs" t="Include" />
           <e p="ColorHexagon.cs" t="Include" />
           <e p="ColorPair.cs" t="Include" />

@@ -45,7 +45,7 @@ public abstract class Hexagon : MonoBehaviour
 
     public void ExecuteTurns()
     {
-        StartCoroutine(ExecuteTurnsCoroutine(0.5f, true));
+        StartCoroutine(ExecuteTurnsCoroutine(0.2f, true));
     }
     
     private IEnumerator ExecuteTurnsCoroutine(float durationOneCell, bool lockBoard = false)
