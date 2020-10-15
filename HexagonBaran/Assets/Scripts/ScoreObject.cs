@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class ScoreObject : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class ScoreObject : MonoBehaviour
     private IEnumerator ShowScoreCoroutine()
     {
         var step = 0f;
-        
+
+        endPosition.x = Random.Range(-3f, 3f);
         while (step < 1f)
         {
             step += Time.deltaTime / duration;

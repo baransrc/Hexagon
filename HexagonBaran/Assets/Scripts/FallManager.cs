@@ -50,7 +50,10 @@ public class FallManager : MonoBehaviour
                 if (hexagon.Cell.LocalPosition != hexagon.LocalPosition)
                 {
                     Falling = true;
-                    hexagon.LocalPosition = Vector3.Lerp(hexagon.LocalPosition, hexagon.Cell.LocalPosition, Time.deltaTime / _timeToFallOneCell);
+                    var deltaY = hexagon.LocalPosition.y - hexagon.Cell.LocalPosition.y;
+                    deltaY = deltaY < 0.5f ? deltaY : 0.5f;
+                    hexagon.LocalPosition = Vector3.Lerp(hexagon.LocalPosition, hexagon.Cell.LocalPosition, Time.deltaTime /
+                        (_timeToFallOneCell * deltaY));
                 }
             }
         }
