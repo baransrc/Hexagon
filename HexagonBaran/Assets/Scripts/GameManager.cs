@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Colors> _allowedColors;
     [SerializeField] private TouchManager _touchManager;
     [SerializeField] private ScoreManager scoreManager;
+    
+    public delegate void TurnEndManager();
+    public event TurnEndManager OnTurnEnded;
+        
 
     private float _hexagonHeight;
     private float _hexagonWidth;
@@ -31,6 +35,10 @@ public class GameManager : MonoBehaviour
     private FallManager _fallManager;
 
     private int _movementLock;
+    
+    [SerializeField] private int bombSpawningFrequency;
+    private int _bombSpawningThreshold;
+    private bool _turnShouldEnd;
 
     public int Score { get; private set; }
     
@@ -44,9 +52,13 @@ public class GameManager : MonoBehaviour
         _touchPointsByCellId = new Dictionary<int, List<TouchPoint>>();
         _fallManager = GetComponent<FallManager>();
         _movementLock = 0;
-
-        SubscribeToEvents();
+        _bombSpawningThreshold = bombSpawningFrequency;
         
+        SubscribeToEvents();
+    }
+
+    private void Start()
+    {
         SetupWidthAndHeight();
         SetupGrid();
         SetupTouchPoints();
@@ -54,11 +66,8 @@ public class GameManager : MonoBehaviour
         scoreManager.DisplayScore(Score);
         
         PopulateTouchPointsByCellId();
-    }
-
-    private void Start()
-    {
-
+        
+        _fallManager.Initialize(this, Grid);
     }
     
     private void OnDestroy()
@@ -125,6 +134,11 @@ public class GameManager : MonoBehaviour
         Pool.SharedInstance.GetPooledObject(PoolingId.ScoreObject).GetComponent<ScoreObject>().ShowScore(scoreToAdd);
     }
 
+    public int GetInitialBombCounterValue()
+    {
+        return 7;
+    }
+
     public void LockMovement()
     {
         _movementLock++;
@@ -150,7 +164,9 @@ public class GameManager : MonoBehaviour
        
         var cells = _selectedTouchPoint.GetCells();
 
-        for (int j = 0; j < cells.Length; j++)
+        var turnCount = 0;
+        
+        while (turnCount < cells.Length)
         {
             var hexagons = new List<Hexagon>();
             
@@ -185,13 +201,21 @@ public class GameManager : MonoBehaviour
             {
                 break;
             }
+
+            turnCount++;
         }
 
         foreach (var cell in cells)
         {
             cell.Hexagon.ExecuteTurns();
         }
+        
+        if (turnCount == cells.Length)
+        {
+            return;
+        }
 
+        _turnShouldEnd = true;
         Changed = true;
     }
     
@@ -257,6 +281,11 @@ public class GameManager : MonoBehaviour
     {
         return Pool.SharedInstance.GetPooledObject(PoolingId.ColorHexagon).GetComponent<ColorHexagon>();
     }
+    
+    private BombHexagon GetBombHexagon()
+    {
+        return Pool.SharedInstance.GetPooledObject(PoolingId.BombHexagon).GetComponent<BombHexagon>();
+    }
 
     /// <summary>
     /// Assumes width of hexagon as exactly 1 world unit
@@ -290,10 +319,22 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        FillWithHexagon();
+        Fill();
     }
 
-    public void FillWithHexagon()
+    private Hexagon GetHexagonByScore()
+    {
+        if (Score >= _bombSpawningThreshold)
+        {
+            _bombSpawningThreshold += bombSpawningFrequency;
+
+            return GetBombHexagon();
+        }
+
+        return GetColorHexagon();
+    }
+
+    private void Fill()
     {
         var width = (((_gridWidth) - 1f) * _hexagonOuterOffset) + ((_gridWidth - 1) * _hexagonWidth * 0.75f);
         var height = (_hexagonHeight * (_gridHeight + 0.5f)) + (_gridHeight * _hexagonOuterOffset);
@@ -312,7 +353,7 @@ public class GameManager : MonoBehaviour
 
                 Changed = true;
                 
-                var hexagon = GetColorHexagon();
+                var hexagon = GetHexagonByScore();
 
                 hexagon.Initialize(this, GetRandomColor());
 
@@ -516,18 +557,36 @@ public class GameManager : MonoBehaviour
     {
         return new Vector3(i * (_hexagonInnerOffset * 3f + _hexagonOuterOffset), (j * (_hexagonHeight * 0.5f + _hexagonOuterOffset)) + (((i + 1) % 2) * (_hexagonHeight * 0.25f + _hexagonOuterOffset * 0.5f)));
     }
-
-    private void Update()
+    
+    private void Match()
     {
-        _fallManager.Fall();
-
-        FillWithHexagon();
-
         if (!_fallManager.Falling && _movementLock < 1 && Changed)
         {
             LookForMatches(); // There is an unnecessary execution of this because of one of the booleans.
             scoreManager.DisplayScore(Score);
             Changed = false;
         }
+    }
+
+    private void EndTurn()
+    {
+        if (!_turnShouldEnd || _movementLock > 0)
+        {
+            return;
+        }
+
+        _turnShouldEnd = false;
+        OnTurnEnded?.Invoke();
+    }
+    
+    private void Update()
+    {
+        _fallManager.Fall();
+
+        Fill();
+        
+        Match();
+        
+        EndTurn();
     }
 }

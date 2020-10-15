@@ -22,14 +22,10 @@
     <list default="true" id="17ebd9ed-e538-4242-b122-6b7eafcec5b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Color.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Colors.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Color.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Colors.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorPair.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ColorPalette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ColorPalette.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ScoreObject.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ScoreObject.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +35,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -53,13 +52,14 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/TouchPoint.cs" />
         <option value="$PROJECT_DIR$/Assets/Pool.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PoolItem.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Pool.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Colors.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ScoreObject.cs" />
         <option value="$PROJECT_DIR$/Assets/ScoreManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
@@ -110,7 +110,7 @@
       <workItem from="1602517991079" duration="3025000" />
       <workItem from="1602619388192" duration="6445000" />
       <workItem from="1602687610510" duration="13457000" />
-      <workItem from="1602759544283" duration="7983000" />
+      <workItem from="1602759544283" duration="13995000" />
     </task>
     <servers />
   </component>

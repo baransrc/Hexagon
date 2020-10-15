@@ -178,6 +178,7 @@ MonoBehaviour:
   _allowedColors: 00000000010000000200000003000000
   _touchManager: {fileID: 784673491}
   scoreManager: {fileID: 1343418637}
+  bombSpawningFrequency: 1000
 --- !u!114 &164707794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,10 +478,14 @@ MonoBehaviour:
     _gameObjectToPool: {fileID: 1319416598336085269, guid: e1b69064ef386cd4095b4037760342cf,
       type: 3}
     _poolingId: 0
+  - _pooledAmount: 10
+    _gameObjectToPool: {fileID: 1319416598336085269, guid: 4e7ef9b0dfa5041499764e586a17a774,
+      type: 3}
+    _poolingId: 1
   - _pooledAmount: 5
     _gameObjectToPool: {fileID: 4208070697231746726, guid: 23308b15b59f6b1409518e501d522110,
       type: 3}
-    _poolingId: 1
+    _poolingId: 2
   itemSpawnLocation: {x: 100, y: 100, z: 0}
 --- !u!4 &1026979420
 Transform:

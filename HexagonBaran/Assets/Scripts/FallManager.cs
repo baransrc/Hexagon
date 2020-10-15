@@ -11,9 +11,10 @@ public class FallManager : MonoBehaviour
     [SerializeField] private float _timeToFallOneCell;
 
     public bool Falling { get; private set; }
-    private void Awake()
+
+    public void Initialize(GameManager gameManager, Grid grid)
     {
-        _gameManager = GetComponent<GameManager>();
+        _gameManager = gameManager;
         _grid = _gameManager.Grid;
         Falling = false;
     }
