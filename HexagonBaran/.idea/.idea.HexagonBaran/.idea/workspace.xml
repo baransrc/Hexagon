@@ -22,11 +22,14 @@
     <list default="true" id="17ebd9ed-e538-4242-b122-6b7eafcec5b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ScoreObject.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ScoreObject.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/BombHexagon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/BombHexagon.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Cell.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ColorHexagon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ColorHexagon.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Hexagon.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Hexagon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Hexagon.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Hexagon.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,8 +61,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ScoreObject.cs" />
         <option value="$PROJECT_DIR$/Assets/ScoreManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ExplosionParticle.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
@@ -110,7 +114,7 @@
       <workItem from="1602517991079" duration="3025000" />
       <workItem from="1602619388192" duration="6445000" />
       <workItem from="1602687610510" duration="13457000" />
-      <workItem from="1602759544283" duration="13995000" />
+      <workItem from="1602759544283" duration="16893000" />
     </task>
     <servers />
   </component>

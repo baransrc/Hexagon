@@ -3,4 +3,5 @@
     ColorHexagon,
     BombHexagon,
     ScoreObject,
+    ExplosionParticle,
 }

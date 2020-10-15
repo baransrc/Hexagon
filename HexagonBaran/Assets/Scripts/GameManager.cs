@@ -121,7 +121,13 @@ public class GameManager : MonoBehaviour
 
         foreach (var pair in cellsToExplode)
         {
-            pair.Value.Hexagon.Explode();
+            var hexagon = pair.Value.Hexagon;
+            var particle = Pool.SharedInstance.GetPooledObject(PoolingId.ExplosionParticle).GetComponent<ExplosionParticle>();
+            var color = GetColorRgba(hexagon.Color);
+            
+            particle.Play(color, hexagon.LocalPosition);
+            
+            hexagon.Explode();
         }
 
         if (scoreToAdd == 0)

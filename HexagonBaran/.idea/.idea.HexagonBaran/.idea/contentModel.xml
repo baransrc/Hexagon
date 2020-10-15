@@ -13,6 +13,7 @@
           <e p="ColorPair.cs" t="Include" />
           <e p="ColorPalette.cs" t="Include" />
           <e p="Colors.cs" t="Include" />
+          <e p="ExplosionParticle.cs" t="Include" />
           <e p="FallManager.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="Grid.cs" t="Include" />
