@@ -25,6 +25,7 @@ public class TouchManager : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
+        Input.multiTouchEnabled = false; 
     }
 
     private void DetectTouch()
@@ -75,9 +76,9 @@ public class TouchManager : MonoBehaviour
                 
                 return;
             }
-            
-            _touchIsRegistered = false;
         }
+        
+        _touchIsRegistered = false;
 #endif
     }
 

@@ -21,7 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="17ebd9ed-e538-4242-b122-6b7eafcec5b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TouchManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TouchManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +51,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Colors.cs" />
         <option value="$PROJECT_DIR$/Assets/ScoreManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/TouchManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
         <option value="$PROJECT_DIR$/Assets/GameSceneUIManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraShake.cs" />
@@ -70,6 +69,7 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Sounds.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameOverSceneUIManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/TouchManager.cs" />
       </list>
     </option>
   </component>
@@ -120,7 +120,7 @@
       <workItem from="1602619388192" duration="6445000" />
       <workItem from="1602687610510" duration="13457000" />
       <workItem from="1602759544283" duration="26972000" />
-      <workItem from="1602848144858" duration="19043000" />
+      <workItem from="1602848144858" duration="19743000" />
     </task>
     <servers />
   </component>
