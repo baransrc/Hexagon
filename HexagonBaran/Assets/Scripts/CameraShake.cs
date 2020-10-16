@@ -28,6 +28,11 @@ public class CameraShake : MonoBehaviour
 
     private void Shake()
     {
+        if (Time.timeScale == 0f)
+        {
+            return;
+        }
+        
         if (_shakeDuration > 0)
         {
             transform.localPosition = _initialPosition + Random.insideUnitSphere * _shakeMagnitude;

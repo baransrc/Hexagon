@@ -16,14 +16,19 @@
           <e p="Colors.cs" t="Include" />
           <e p="ExplosionParticle.cs" t="Include" />
           <e p="FallManager.cs" t="Include" />
+          <e p="FpsDisplay.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
+          <e p="GameOverSceneUIManager.cs" t="Include" />
+          <e p="GameSceneUIManager.cs" t="Include" />
           <e p="Grid.cs" t="Include" />
           <e p="Hexagon.cs" t="Include" />
+          <e p="MainMenuSceneUIManager.cs" t="Include" />
           <e p="Pool.cs" t="Include" />
           <e p="PoolingId.cs" t="Include" />
           <e p="PoolItem.cs" t="Include" />
           <e p="ScoreManager.cs" t="Include" />
           <e p="ScoreObject.cs" t="Include" />
+          <e p="StoredVariables.cs" t="Include" />
           <e p="TouchManager.cs" t="Include" />
           <e p="TouchPoint.cs" t="Include" />
           <e p="TouchPointData.cs" t="Include" />

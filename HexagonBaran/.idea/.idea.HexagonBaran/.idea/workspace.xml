@@ -20,9 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17ebd9ed-e538-4242-b122-6b7eafcec5b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HexagonBaran/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ScoreObject.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ScoreObject.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraShake.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraShake.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Outline.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Outline.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,14 +58,20 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ColorHexagon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Colors.cs" />
         <option value="$PROJECT_DIR$/Assets/ScoreManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PoolingId.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ExplosionParticle.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CameraShake.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TouchManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Hexagon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ScoreObject.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/FallManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/GameSceneUIManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CameraShake.cs" />
+        <option value="$PROJECT_DIR$/Assets/FpsDisplay.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StoredVariables.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/BombHexagon.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameSceneUIManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/MainMenuSceneUIManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/GameOverSceneUIManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
@@ -110,7 +123,7 @@
       <workItem from="1602619388192" duration="6445000" />
       <workItem from="1602687610510" duration="13457000" />
       <workItem from="1602759544283" duration="26972000" />
-      <workItem from="1602848144858" duration="6171000" />
+      <workItem from="1602848144858" duration="14143000" />
     </task>
     <servers />
   </component>

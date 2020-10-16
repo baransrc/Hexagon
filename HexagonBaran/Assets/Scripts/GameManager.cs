@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -38,11 +39,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int bombSpawningFrequency;
     private int _bombSpawningThreshold;
     private bool _turnShouldEnd;
+    private bool _gameEnded;
 
     public int Score { get; private set; }
     
     public Grid Grid { get; private set; }
     public bool Changed { get; set; }
+
+    private bool _paused;
+    public bool Paused
+    {
+        get
+        {
+            return _paused;
+        }
+
+        set
+        {
+            _paused = value;
+            Time.timeScale = _paused ? 0f : 1f;
+        }
+    }
 
     private void Awake()
     {
@@ -51,6 +68,7 @@ public class GameManager : MonoBehaviour
         _touchPointsByCellId = new Dictionary<int, List<TouchPoint>>();
         _fallManager = GetComponent<FallManager>();
         _movementLock = 0;
+        _gameEnded = false;
         _bombSpawningThreshold = bombSpawningFrequency;
         
         SubscribeToEvents();
@@ -72,6 +90,19 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeFromEvents();
+    }
+
+    private void SaveScore()
+    {
+        PlayerPrefs.SetInt(StoredVariables.Lastscore, Score);
+    }
+
+    public void EndGame()
+    {
+        _gameEnded = true;
+        Paused = false;
+        SaveScore();
+        SceneManager.LoadScene("GameOverScene");
     }
 
     private void SubscribeToEvents()
@@ -161,6 +192,11 @@ public class GameManager : MonoBehaviour
     
     private void Turn(bool isClockwise)
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (_fallManager.Falling)
         {
             return;
@@ -245,6 +281,11 @@ public class GameManager : MonoBehaviour
 
     private void ProcessTouch(Vector3 position)
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (_fallManager.Falling)
         {
             return;
@@ -649,7 +690,6 @@ public class GameManager : MonoBehaviour
 
         return foundPossibleMatch;
     }
-
     
     private void Match()
     {
@@ -661,8 +701,11 @@ public class GameManager : MonoBehaviour
             if (!foundMatches)
             {
                 var movesLeft = DetermineIfThereAreMovesLeft();
-                
-                Debug.Log(movesLeft);
+
+                if (!movesLeft)
+                {
+                    EndGame();
+                }
             }
             
             Changed = false;
@@ -689,7 +732,7 @@ public class GameManager : MonoBehaviour
         _turnShouldEnd = false;
         OnTurnEnded?.Invoke();
     }
-    
+
     private void Update()
     {
         Fall();

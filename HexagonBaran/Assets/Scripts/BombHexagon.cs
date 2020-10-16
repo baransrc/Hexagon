@@ -19,7 +19,7 @@ public class BombHexagon : Hexagon
     {
         if (_counter <= 0)
         {
-            Debug.Log("Lost Condition!");
+            _gameManager.EndGame();
         }
         
         Recycle();
