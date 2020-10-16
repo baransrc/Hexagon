@@ -56,6 +56,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         
+        _audioSourceMusic.Play();
     }
 
     public void PlaySound(Sounds soundType)
