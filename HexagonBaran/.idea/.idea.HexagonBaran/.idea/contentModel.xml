@@ -36,6 +36,7 @@
           <e p="TouchManager.cs" t="Include" />
           <e p="TouchPoint.cs" t="Include" />
           <e p="TouchPointData.cs" t="Include" />
+          <e p="TouchPointManager.cs" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">

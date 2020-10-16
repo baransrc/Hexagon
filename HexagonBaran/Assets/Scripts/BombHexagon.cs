@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class BombHexagon : Hexagon
 {
     [SerializeField] private TextMeshPro counterText;
+    
     private SpriteRenderer _spriteRenderer;
     private int _counter;
 
@@ -19,7 +18,7 @@ public class BombHexagon : Hexagon
     {
         if (_counter <= 0)
         {
-            _gameManager.EndGame();
+            GameManager.EndGame();
         }
         
         Recycle();
@@ -27,21 +26,21 @@ public class BombHexagon : Hexagon
 
     public override void Initialize(GameManager gameManager, Colors color)
     {
-        _gameManager = gameManager;
+        GameManager = gameManager;
 
-        _gameManager.OnTurnEnded += OnTurnEnded;
+        GameManager.OnTurnEnded += OnTurnEnded;
 
-        _counter = _gameManager.GetInitialBombCounterValue();
+        _counter = GameManager.GetInitialBombCounterValue();
         
         SetCounterIndicator();
         
         SetColor(color);
     }
 
-    public void SetColor(Colors color)
+    private void SetColor(Colors color)
     {
         _color = color;
-        _spriteRenderer.color = _gameManager.GetColorRgba(_color);
+        _spriteRenderer.color = GameManager.GetColorRgba(_color);
     }
 
     private void SetCounterIndicator()
@@ -71,9 +70,9 @@ public class BombHexagon : Hexagon
 
         LocalPosition = Pool.SharedInstance.ItemSpawnLocation;
 
-        _gameManager.OnTurnEnded -= OnTurnEnded;
+        GameManager.OnTurnEnded -= OnTurnEnded;
         
-        _gameManager = null;
+        GameManager = null;
         gameObject.SetActive(false);
     }
 }

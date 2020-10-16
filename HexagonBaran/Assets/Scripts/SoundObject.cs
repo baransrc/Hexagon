@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.SerializableAttribute]
 public class SoundObject
 {
-    [SerializeField] private Sounds _soundType;
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private Sounds soundType;
+    [SerializeField] private AudioSource audioSource;
 
     public Sounds SoundType
     {
         get
         {
-            return _soundType;
+            return soundType;
         }
 
         private set
@@ -21,24 +19,23 @@ public class SoundObject
         }
     }
     
-    public void Play(float pitch = 1)
+    public void Play()
     {
-        // _audioSource.pitch = pitch;
-        _audioSource.Play();
+        audioSource.Play();
     }
 
     public void Pause()
     {
-        _audioSource.Pause();
+        audioSource.Pause();
     }
 
     public void Stop()
     {
-        _audioSource.Stop();
+        audioSource.Stop();
     }
 
     public bool IsPlaying()
     {
-        return _audioSource.isPlaying;
+        return audioSource.isPlaying;
     }
 }

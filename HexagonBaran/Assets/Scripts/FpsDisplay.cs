@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
@@ -11,10 +9,11 @@ public class FpsDisplay : MonoBehaviour
     private int _minFPS = 144;
     private int _maxFPS = 0;
     private bool _firstFrame = true;
-    private TMPro.TextMeshProUGUI _fpsTextUI;
+    
+    private TextMeshProUGUI _fpsTextUI;
 
-    [SerializeField] private float _refreshInterval = 2.0f;
-    [SerializeField] private bool _showMinMax = false;
+    [SerializeField] private float refreshInterval;
+    [SerializeField] private bool showMinMax;
 
     private void Awake()
     {
@@ -28,11 +27,12 @@ public class FpsDisplay : MonoBehaviour
         _minFPS = (currentFPS < _minFPS) && (_timeNeededToUpdateMinFPSCounter <= 0f) ? currentFPS : _minFPS;
         _maxFPS = (currentFPS > _maxFPS) && (_timeNeededToUpdateMinFPSCounter <= 0f) ? currentFPS : _maxFPS;
 
-        var fpsString = "FPS: " + (currentFPS).ToString() + "\n";
-        var minMaxString = (_timeNeededToUpdateMinFPSCounter <= 0f) ? "MIN: " + _minFPS.ToString() + "\n" + "MAX: " + _maxFPS.ToString()
-            : "MIN: ???" + "\n" + "MAX: ???";
+        var fpsString = "FPS: " + currentFPS + "\n";
+        
+        var minMaxString = (_timeNeededToUpdateMinFPSCounter <= 0f) ? "MIN: " + _minFPS + "\n" + "MAX: " + _maxFPS
+                                                                    : "MIN: ???" + "\n" + "MAX: ???";
 
-        _fpsTextUI.text = (_showMinMax) ? fpsString + minMaxString : fpsString;
+        _fpsTextUI.text = (showMinMax) ? fpsString + minMaxString : fpsString;
     }
 
 
@@ -42,11 +42,15 @@ public class FpsDisplay : MonoBehaviour
 
         if (_timeNeededToUpdateMinFPSCounter > 0) _timeNeededToUpdateMinFPSCounter -= Time.unscaledDeltaTime;
 
-        if (_timeElapsedSinceLastUpdate >= _refreshInterval || _firstFrame)
+        if (!(_timeElapsedSinceLastUpdate >= refreshInterval) && !_firstFrame)
         {
-            UpdateFPSCounter();
-            _timeElapsedSinceLastUpdate = 0.0f;
-            _firstFrame = false;
+            return;
         }
+        
+        UpdateFPSCounter();
+            
+        _timeElapsedSinceLastUpdate = 0.0f;
+            
+        _firstFrame = false;
     }
 }

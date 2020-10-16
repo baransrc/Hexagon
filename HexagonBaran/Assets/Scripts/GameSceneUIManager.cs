@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameSceneUIManager : MonoBehaviour
@@ -15,13 +12,16 @@ public class GameSceneUIManager : MonoBehaviour
     private void Awake()
     {
         pauseMenu.alpha = 0f;
+        
         pauseMenu.gameObject.SetActive(false);
     }
 
     public void OnClickPauseButton()
     {
         AudioManager.Instance.PlaySound(Sounds.Button);
+        
         gameManager.Paused = true;
+        
         StartCoroutine(EnablePauseMenu());
     }
 
@@ -29,6 +29,7 @@ public class GameSceneUIManager : MonoBehaviour
     {
         pauseButton.gameObject.SetActive(false);
         pauseMenu.gameObject.SetActive(true);
+        
         pauseMenu.alpha = 0f;
         
         while (pauseMenu.alpha < 1f)
@@ -60,6 +61,7 @@ public class GameSceneUIManager : MonoBehaviour
         
         pauseButton.gameObject.SetActive(true);
         pauseMenu.gameObject.SetActive(false);
+        
         gameManager.Paused = false;
     }
     

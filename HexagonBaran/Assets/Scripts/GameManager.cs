@@ -1,51 +1,56 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(ColorPalette))]
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int _gridWidth;
-    [SerializeField] private int _gridHeight;
-    [SerializeField] private float _hexagonOuterOffset;
-    [SerializeField] private float _hexagonUnitSize;
-    [SerializeField] private int _hexagonFallOffset;
-    [SerializeField] private GameObject _touchPointPrefab;
-    [SerializeField] private GameObject _cellPrefab;
-    [SerializeField] private List<Colors> _allowedColors;
-    [SerializeField] private TouchManager _touchManager;
+    [Header("Color Configuration:")]
+    [SerializeField] private List<Colors> allowedColors;
+    private ColorPalette _colorPalette;
+    
+    [Header("Grid Configuration:")]
+    [SerializeField] private int gridWidth;
+    [SerializeField] private int gridHeight;
+                     public Grid Grid { get; private set; }
+    
+    [Header("Hexagon Configuration:")]
+    [SerializeField] private int hexagonBombSpawningFrequency;
+    [SerializeField] private float hexagonOuterOffset;
+    [SerializeField] private float hexagonUnitSize;
+    [SerializeField] private int hexagonFallOffset;
+                     private float _hexagonHeight;
+                     private float _hexagonWidth;
+                     private float _hexagonInnerOffset;
+    
+    [Header("Prefabs:")]
+    [SerializeField] private GameObject cellPrefab;
+    
+    [Header("Touch:")]
+    [SerializeField] private TouchPointManager touchPointManager;
+    [SerializeField] private TouchManager touchManager;
+                     private Dictionary<int, List<TouchPoint>> _touchPointsByCellId; // This holds touch points that include a certain cell using unique cell Ids.
+                     private List<TouchPoint> _touchPoints;
+                     private TouchPoint _selectedTouchPoint;
+    
+    [Header("Score:")]
     [SerializeField] private ScoreManager scoreManager;
+                     public int Score { get; private set; }
+    
+    [Header("Camera:")]
     [SerializeField] private CameraShake cameraShake;
+    
+    
+    // Events:
     public delegate void TurnEndManager();
     public event TurnEndManager OnTurnEnded;
 
-    private float _hexagonHeight;
-    private float _hexagonWidth;
-    private float _hexagonInnerOffset;
-    private ColorPalette _colorPalette;
-
-    private Dictionary<int, List<TouchPoint>> _touchPointsByCellId; // This holds touch points that include a certain cell using unique cell Ids.
-    private List<TouchPoint> _touchPoints;
-    private TouchPoint _selectedTouchPoint;
-    private FallManager _fallManager;
-
+    // Flags:
     private int _movementLock;
-    
-    [SerializeField] private int bombSpawningFrequency;
     private int _bombSpawningThreshold;
     private bool _turnShouldEnd;
     private bool _gameEnded;
-
-    public int Score { get; private set; }
-    
-    public Grid Grid { get; private set; }
-    public bool Changed { get; set; }
-
     private bool _paused;
     public bool Paused
     {
@@ -60,16 +65,25 @@ public class GameManager : MonoBehaviour
             Time.timeScale = _paused ? 0f : 1f;
         }
     }
+    public bool Changed { get; set; }
+    
+    // Mechanics Managers:
+    private FallManager _fallManager;
 
+    
     private void Awake()
     {
         _colorPalette = GetComponent<ColorPalette>();
+        _fallManager = GetComponent<FallManager>();
+        
         _touchPoints = new List<TouchPoint>();
         _touchPointsByCellId = new Dictionary<int, List<TouchPoint>>();
-        _fallManager = GetComponent<FallManager>();
+        
         _movementLock = 0;
+        
         _gameEnded = false;
-        _bombSpawningThreshold = bombSpawningFrequency;
+        
+        _bombSpawningThreshold = hexagonBombSpawningFrequency;
         
         SubscribeToEvents();
     }
@@ -78,12 +92,11 @@ public class GameManager : MonoBehaviour
     {
         SetupWidthAndHeight();
         SetupGrid();
+        
         SetupTouchPoints();
         
         scoreManager.DisplayScore(Score);
-        
-        PopulateTouchPointsByCellId();
-        
+
         _fallManager.Initialize(this, Grid);
     }
     
@@ -101,26 +114,28 @@ public class GameManager : MonoBehaviour
     {
         _gameEnded = true;
         Paused = false;
+        
         SaveScore();
+        
         SceneManager.LoadScene("GameOverScene");
     }
 
     private void SubscribeToEvents()
     {
-        _touchManager.OnDraggedRight += TurnClockwise;
-        _touchManager.OnDraggedLeft += TurnCounterClockwise;
-        _touchManager.OnDraggedUp += TurnClockwise;
-        _touchManager.OnDraggedDown += TurnCounterClockwise;
-        _touchManager.OnClicked += ProcessTouch;
+        touchManager.OnDraggedRight += TurnClockwise;
+        touchManager.OnDraggedLeft += TurnCounterClockwise;
+        touchManager.OnDraggedUp += TurnClockwise;
+        touchManager.OnDraggedDown += TurnCounterClockwise;
+        touchManager.OnClicked += ProcessTouch;
     }
 
     private void UnsubscribeFromEvents()
     {
-        _touchManager.OnDraggedRight -= TurnClockwise;
-        _touchManager.OnDraggedLeft -= TurnCounterClockwise;
-        _touchManager.OnDraggedUp -= TurnClockwise;
-        _touchManager.OnDraggedDown -= TurnCounterClockwise;
-        _touchManager.OnClicked -= ProcessTouch;
+        touchManager.OnDraggedRight -= TurnClockwise;
+        touchManager.OnDraggedLeft -= TurnCounterClockwise;
+        touchManager.OnDraggedUp -= TurnClockwise;
+        touchManager.OnDraggedDown -= TurnCounterClockwise;
+        touchManager.OnClicked -= ProcessTouch;
     }
 
     private bool LookForMatches()
@@ -339,9 +354,9 @@ public class GameManager : MonoBehaviour
 
     private Colors GetRandomColor()
     {
-        var random = Random.Range(0, _allowedColors.Count);
+        var random = Random.Range(0, allowedColors.Count);
 
-        return _allowedColors[random];
+        return allowedColors[random];
     }
 
     private ColorHexagon GetColorHexagon()
@@ -359,24 +374,24 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetupWidthAndHeight() 
     {
-        _hexagonWidth = _hexagonUnitSize;
+        _hexagonWidth = hexagonUnitSize;
         _hexagonHeight = _hexagonWidth * Mathf.Sqrt(3f);
         _hexagonInnerOffset = _hexagonWidth * 0.25f; 
     }
 
     private void SetupGrid()
     {
-        Grid = new Grid(_gridWidth, _gridHeight);
+        Grid = new Grid(gridWidth, gridHeight);
 
-        var width = (((_gridWidth) - 1f) * _hexagonOuterOffset) + ((_gridWidth - 1) * _hexagonWidth * 0.75f);
-        var height = (_hexagonHeight * (_gridHeight + 0.5f)) + (_gridHeight * _hexagonOuterOffset);
+        var width = (((gridWidth) - 1f) * hexagonOuterOffset) + ((gridWidth - 1) * _hexagonWidth * 0.75f);
+        var height = (_hexagonHeight * (gridHeight + 0.5f)) + (gridHeight * hexagonOuterOffset);
         var offset = new Vector3(width * 0.5f, height * 0.25f);
 
-        for (int i = 0; i < _gridWidth; i++)
+        for (var i = 0; i < gridWidth; i++)
         {
-            for (int j = 0; j < _gridHeight; j++)
+            for (var j = 0; j < gridHeight; j++)
             {
-                var cell = Instantiate(_cellPrefab, transform).GetComponent<Cell>();
+                var cell = Instantiate(cellPrefab, transform).GetComponent<Cell>();
 
                 var position = GetPositionByIndex(i, j);
 
@@ -393,7 +408,7 @@ public class GameManager : MonoBehaviour
     {
         if (Score >= _bombSpawningThreshold)
         {
-            _bombSpawningThreshold += bombSpawningFrequency;
+            _bombSpawningThreshold += hexagonBombSpawningFrequency;
 
             return GetBombHexagon();
         }
@@ -403,13 +418,13 @@ public class GameManager : MonoBehaviour
 
     private void Fill()
     {
-        var width = (((_gridWidth) - 1f) * _hexagonOuterOffset) + ((_gridWidth - 1) * _hexagonWidth * 0.75f);
-        var height = (_hexagonHeight * (_gridHeight + 0.5f)) + (_gridHeight * _hexagonOuterOffset);
+        var width = (((gridWidth) - 1f) * hexagonOuterOffset) + ((gridWidth - 1) * _hexagonWidth * 0.75f);
+        var height = (_hexagonHeight * (gridHeight + 0.5f)) + (gridHeight * hexagonOuterOffset);
         var offset = new Vector3(width * 0.5f, height * 0.25f);
 
-        for (int i = 0; i < _gridWidth; i++)
+        for (var i = 0; i < gridWidth; i++)
         {
-            for (int j = 0; j < _gridHeight; j++)
+            for (var j = 0; j < gridHeight; j++)
             {
                 var cell = Grid[i, j];
 
@@ -424,7 +439,7 @@ public class GameManager : MonoBehaviour
 
                 hexagon.Initialize(this, GetRandomColor()); // Use (Colors)((j + i)%7) as Colors argument to check for lose condition with no movements left.
 
-                hexagon.LocalPosition = GetPositionByIndex(i, j + _hexagonFallOffset) - offset;
+                hexagon.LocalPosition = GetPositionByIndex(i, j + hexagonFallOffset) - offset;
 
                 cell.Hexagon = hexagon;
                 hexagon.Cell = cell;
@@ -445,165 +460,10 @@ public class GameManager : MonoBehaviour
 
     private void SetupTouchPoints()
     {
-        for (int i = 0; i < _gridWidth; i++)
-        {
-            for (int j = 0; j < _gridHeight; j++)
-            {
-                CreateTouchPoint(i,j);
-            }
-        }
-    }
-
-    private Cell[] GetCellGroupLowerLeft(int x, int y)
-    {
-        var newX = (x == 0) ? 1 : x;
+        _touchPoints = touchPointManager.CreateTouchPoints(Grid, hexagonOuterOffset, _hexagonInnerOffset,
+            _hexagonHeight, _hexagonWidth);
         
-        return new Cell [3] { Grid[newX,y], Grid[newX-1,y], Grid[(newX % 2 == 0) ? newX-1 : newX, y+1]};
-    }
-
-    private Cell[] GetCellGroupLowerRight(int x, int y)
-    {
-        var newX = (x == _gridWidth - 1) ? _gridWidth - 2 : x;
         
-        return new Cell [3] { Grid[newX,y], Grid[newX+1,y], Grid[(newX % 2 == 0) ? newX+1 : newX, y+1]};
-    }
-    
-    private Cell[] GetCellGroupMiddleLeft(int x, int y)
-    {
-        if (y == _gridHeight - 1)
-        {
-            return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y], Grid[x, y-1]} 
-                          : new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x % 2 == 0 ? x : x-1, y - 1]};
-        }
-
-        if (y == 0)
-        {
-            return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y+1], Grid[x+1, y]} 
-                : new Cell [3] { Grid[x,y], Grid[x-1,y], Grid[(x % 2 == 0) ? x-1 : x, y+1]};
-        }
-        
-        return x == 0 ? new Cell [3] { Grid[x,y], Grid[x+1,y+1], Grid[x+1, y]} 
-                      : new Cell [3] { Grid[x,y], Grid[x-1,y], Grid[x-1, (x % 2 == 0) ? y+1 : y-1]};
-    }
-
-    private Cell[] GetCellGroupUpperLeft(int x, int y)
-    {
-        if (y == _gridHeight - 1)
-        {
-            return new Cell [3] {Grid[x, y], Grid[(x == 0) ? x + 1 : x -1, y], Grid[(x % 2 == 0) ? x : x - 1, y - 1]};
-        }
-        
-        if (x == 0)
-        {
-            return new Cell [3] {Grid[x, y], Grid[x, y + 1], Grid[x + 1, y + 1]};
-        }
-
-        return x % 2 == 0 ? new Cell [3] {Grid[x, y], Grid[x-1, y + 1], Grid[x, y + 1]} 
-                          : new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x, y + 1]};
-    }
-
-    private Cell[] GetCellGroupUpperRight(int x, int y)
-    {
-        if (x == _gridWidth - 1)
-        {
-            if (y == _gridHeight - 1)
-            {
-                return new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x - 1, y - 1]};
-            }
-            
-            return new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x, y + 1]};
-        }
-        
-        return x % 2 == 0 ? new Cell [3] {Grid[x, y], Grid[x, y - 1], Grid[x + 1, y]} 
-                          : new Cell [3] {Grid[x, y], Grid[x + 1, y], Grid[x + 1, y - 1]};
-    }
-    
-    private Cell[] GetCellGroupMiddleRight(int x, int y)
-    {
-        return y == _gridHeight - 1 ? new Cell [3] {Grid[x, y], Grid[x - 1, y - 1], Grid[x, y - 1]} 
-                                    : new Cell [3] {Grid[x, y], Grid[x - 1, y], Grid[x, y + 1]};
-    }
-    
-    private void CreateTouchPoint(int x, int y)
-    {
-        var cellPosition = Grid[x, y].LocalPosition;
-        var touchPointData = new List<TouchPointData>();
-        var hexagonOuterOffsetHalf = _hexagonOuterOffset * 0.5f;
-        
-        if (y == 0) 
-        {
-            var lowerLeftData = new TouchPointData
-            {
-                LocalPosition = cellPosition - new Vector3((_hexagonInnerOffset + (hexagonOuterOffsetHalf)),
-                    (_hexagonHeight * 0.25f) + (hexagonOuterOffsetHalf)),
-                Cells = GetCellGroupLowerLeft(x, y)
-            };
-            touchPointData.Add(lowerLeftData);
-        
-            var lowerRightData = new TouchPointData
-            {
-                LocalPosition = cellPosition + new Vector3((_hexagonInnerOffset) + (hexagonOuterOffsetHalf),
-                    -(_hexagonHeight * 0.25f) - (hexagonOuterOffsetHalf)),
-                Cells = GetCellGroupLowerRight(x, y)
-            };
-            touchPointData.Add(lowerRightData);
-        }
-        
-        if (x == _gridWidth - 1 ) 
-        {
-            var middleRightData = new TouchPointData
-            {
-                LocalPosition = cellPosition + new Vector3((_hexagonWidth * 0.5f) + (hexagonOuterOffsetHalf), 0f),
-                Cells = GetCellGroupMiddleRight(x, y)
-            };
-            touchPointData.Add(middleRightData);
-        
-            var upperRightData = new TouchPointData
-            {
-                LocalPosition = cellPosition + new Vector3((_hexagonInnerOffset) + (hexagonOuterOffsetHalf),
-                    (_hexagonHeight * 0.25f) + (hexagonOuterOffsetHalf)),
-                Cells = GetCellGroupUpperRight(x, y)
-            };
-            touchPointData.Add(upperRightData);
-        }
-        
-        if (x != _gridWidth - 1 && y == _gridHeight - 1 )
-        {
-            var upperRightData = new TouchPointData
-            {
-                LocalPosition = cellPosition + new Vector3((_hexagonInnerOffset) + (hexagonOuterOffsetHalf),
-                    (_hexagonHeight * 0.25f) + (hexagonOuterOffsetHalf)),
-                Cells = GetCellGroupUpperRight(x, y)
-            };
-            touchPointData.Add(upperRightData);
-        }
-
-        var middleLeftData = new TouchPointData
-        {
-            LocalPosition = cellPosition + new Vector3(- (_hexagonWidth * 0.5f) - (hexagonOuterOffsetHalf), 0f),
-            Cells = GetCellGroupMiddleLeft(x, y)
-        };
-        touchPointData.Add(middleLeftData);
-
-        var upperLeftData = new TouchPointData
-        {
-            LocalPosition = cellPosition + new Vector3(- (_hexagonInnerOffset) - (hexagonOuterOffsetHalf), (_hexagonHeight * 0.25f) + (hexagonOuterOffsetHalf)),
-            Cells = GetCellGroupUpperLeft(x, y)
-        };
-        touchPointData.Add(upperLeftData);
-
-        foreach (var data in touchPointData)
-        {
-            var touchPoint = Instantiate(_touchPointPrefab).GetComponent<TouchPoint>();
-            touchPoint.Initialize(data);
-            _touchPoints.Add(touchPoint);
-        }
-        
-        touchPointData.Clear();
-    }
-
-    private void PopulateTouchPointsByCellId()
-    {
         foreach (var touchPoint in _touchPoints)
         {
             var cells = touchPoint.GetCells();
@@ -619,10 +479,10 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
     private Vector3 GetPositionByIndex(float i, float j)
     {
-        return new Vector3(i * (_hexagonInnerOffset * 3f + _hexagonOuterOffset), (j * (_hexagonHeight * 0.5f + _hexagonOuterOffset)) + (((i + 1) % 2) * (_hexagonHeight * 0.25f + _hexagonOuterOffset * 0.5f)));
+        return new Vector3(i * (_hexagonInnerOffset * 3f + hexagonOuterOffset), (j * (_hexagonHeight * 0.5f + hexagonOuterOffset)) + (((i + 1) % 2) * (_hexagonHeight * 0.25f + hexagonOuterOffset * 0.5f)));
     }
     
     private bool DetermineIfThereAreMovesLeft()
@@ -695,28 +555,30 @@ public class GameManager : MonoBehaviour
     
     private void Match()
     {
-        if (!_fallManager.Falling && _movementLock < 1 && Changed)
+        if (_fallManager.Falling || _movementLock > 0 || !Changed)
         {
-            var foundMatches = LookForMatches();
-            scoreManager.DisplayScore(Score);
-
-            if (!foundMatches)
-            {
-                var movesLeft = DetermineIfThereAreMovesLeft();
-
-                if (!movesLeft)
-                {
-                    EndGame();
-                }
-            }
-            
-            Changed = false;
+            return;
         }
+        
+        var foundMatches = LookForMatches();
+        scoreManager.DisplayScore(Score);
+
+        if (!foundMatches)
+        {
+            var movesLeft = DetermineIfThereAreMovesLeft();
+
+            if (!movesLeft)
+            {
+                EndGame();
+            }
+        }
+            
+        Changed = false;
     }
 
     private void Fall()
     {
-        if (_movementLock > 1)
+        if (_movementLock > 0)
         {
             return;
         }
@@ -732,11 +594,17 @@ public class GameManager : MonoBehaviour
         }
 
         _turnShouldEnd = false;
+        
         OnTurnEnded?.Invoke();
     }
 
     private void Update()
     {
+        if (_gameEnded)
+        {
+            return;
+        }
+        
         Fall();
         
         Fill();

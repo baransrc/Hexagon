@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,12 +21,14 @@ public class MainMenuSceneUIManager : MonoBehaviour
     public void OnClickPlay()
     {
         AudioManager.Instance.PlaySound(Sounds.Button);
+        
         SceneManager.LoadScene("GameScene");
     }
 
     public void OnClickExit()
     {
         AudioManager.Instance.PlaySound(Sounds.Button);
+        
         Application.Quit();
     }
 }

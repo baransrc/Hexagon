@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public abstract class Hexagon : MonoBehaviour
 {
     protected Colors _color;
-    protected GameManager _gameManager;
+    protected GameManager GameManager;
 
     public Cell Cell{ get; set; }
 
@@ -52,7 +51,7 @@ public abstract class Hexagon : MonoBehaviour
     {
         if (lockBoard)
         {
-            _gameManager.LockMovement();    
+            GameManager.LockMovement();    
         }
 
         while (_turnQueue.Count > 0)
@@ -68,7 +67,6 @@ public abstract class Hexagon : MonoBehaviour
             while (step < 1f)
             {
                 step += Time.deltaTime / durationOneCell;
-            
                 step = (step > 1f) ? 1f : step;
 
                 LocalPosition = Vector2.Lerp(LocalPosition, endPosition, step);
@@ -79,10 +77,10 @@ public abstract class Hexagon : MonoBehaviour
         
         if (lockBoard)
         {
-            _gameManager.UnlockMovement();    
+            GameManager.UnlockMovement();    
         }
         
-        _gameManager.ReleaseSelectedTouchPoint();
+        GameManager.ReleaseSelectedTouchPoint();
     }
     
 

@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
     [SerializeField] private float defaultShakeMagnitude = 0.2f;
     [SerializeField] private float defaultDampingSpeed = 0.9f;
+    
     private float _shakeMagnitude = 0.2f;
     private float _dampingSpeed = 0.5f;
     private float _shakeDuration = 0f;
+    
     private Vector3 _initialPosition;
 
     private void OnEnable()

@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class PoolItem 
 {
-    [SerializeField] private int _pooledAmount;
-    [SerializeField] private GameObject _gameObjectToPool;
-    [SerializeField] private PoolingId _poolingId;
+    [SerializeField] private int pooledAmount;
+    [SerializeField] private GameObject gameObjectToPool;
+    [SerializeField] private PoolingId poolingId;
 
     public int PooledAmount 
     { 
         get
         {
-            return _pooledAmount;
+            return pooledAmount;
         }
         
         private set {}
@@ -23,7 +21,7 @@ public class PoolItem
     { 
         get
         {
-            return _gameObjectToPool;
+            return gameObjectToPool;
         }
         
         private set {}
@@ -33,7 +31,7 @@ public class PoolItem
     { 
         get
         {
-            return _poolingId;
+            return poolingId;
         }
         
         private set {}

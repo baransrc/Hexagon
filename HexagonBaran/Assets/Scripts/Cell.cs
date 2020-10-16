@@ -1,15 +1,12 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    [FormerlySerializedAs("_selectedBackground")] [SerializeField] private SpriteRenderer selectedBackground;
-    public Hexagon Hexagon { get; set; }
-
-    private static int _idCounter = 0;
-    private int _id;
+    [SerializeField] private SpriteRenderer selectedBackground;
     
+    private static int _idCounter = 0;
+
+    public Hexagon Hexagon { get; set; }
     public Vector3 LocalPosition
     {
         get
@@ -22,15 +19,7 @@ public class Cell : MonoBehaviour
             transform.localPosition = value;
         }
     }
-
-    public int Id
-    {
-        get
-        {
-            return _id;
-        }
-    }
-
+    public int Id { get; private set; }
     public bool Empty
     {
         get
@@ -41,7 +30,7 @@ public class Cell : MonoBehaviour
 
     private void Awake()
     {
-        _id = _idCounter;
+        Id = _idCounter;
         _idCounter++;
         
         SetSelected(false);
@@ -50,7 +39,5 @@ public class Cell : MonoBehaviour
     public void SetSelected(bool selected)
     {
         selectedBackground.enabled = selected;
-        // Debug.Log("Cell (" + LocalPosition + ") backgroundEnabled: " + selectedBackground.enabled);
     }
-
 }

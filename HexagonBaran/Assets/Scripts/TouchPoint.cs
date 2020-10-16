@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(Collider2D))]
 public class TouchPoint : MonoBehaviour
 {
-    private Camera _mainCamera;
-    private Collider2D _collider2D;
-    private bool _detectedTouch;
-    private bool _memoryDetectedTouch;
+    [SerializeField] private SpriteRenderer midPoint;
+
     private Cell[] _cells;
 
-    [SerializeField] private SpriteRenderer midPoint;
-    
     public Vector3 LocalPosition
     {
         get
@@ -46,18 +39,11 @@ public class TouchPoint : MonoBehaviour
     {
         return _cells;
     }
-
-    private void Awake()
-    {
-        _mainCamera = Camera.main;
-        _collider2D = GetComponent<Collider2D>();
-        _detectedTouch = false;
-        _memoryDetectedTouch = _detectedTouch;
-    }
-
+    
     public void Initialize(TouchPointData touchPointData)
     {
-        transform.localPosition = touchPointData.LocalPosition;
+        LocalPosition = touchPointData.LocalPosition;
+        
         _cells = touchPointData.Cells;
         
         if (_cells.Length != 3)
@@ -78,6 +64,7 @@ public class TouchPoint : MonoBehaviour
     public void DetectTouch(bool detected)
     {
         midPoint.enabled = detected;
+        
         SelectCells(detected);
     }
 

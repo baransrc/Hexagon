@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine.Serialization;
 
 [System.Serializable]
 public class ColorPair
 {
-    public Colors Color;
-    public UnityEngine.Color RGBA;
+    public Colors color;
+    public UnityEngine.Color rgba;
 }
 

@@ -1,8 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ExplosionParticle : MonoBehaviour
 {
@@ -14,7 +11,6 @@ public class ExplosionParticle : MonoBehaviour
         transform.position = position;
         
         var main = explosionParticle.main;
-
         main.startColor = color;
 
         if (audioSource.isPlaying)
@@ -49,6 +45,7 @@ public class ExplosionParticle : MonoBehaviour
     private void Recycle()
     {
         transform.position = Pool.SharedInstance.ItemSpawnLocation;
+        
         gameObject.SetActive(false);
     }
 }

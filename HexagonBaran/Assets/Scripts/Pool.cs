@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Pool : MonoBehaviour
 {
-    public static Pool SharedInstance = null;
+    public static Pool SharedInstance;
+    
+    [SerializeField] private Vector3 itemSpawnLocation;
     [SerializeField] private List<PoolItem> itemsToPool;
-    [SerializeField] private Vector3 itemSpawnLocation = new Vector3 (0f,0f,0f);
-
+                     private Dictionary<PoolingId, List<GameObject>> _pool;
     public Vector3 ItemSpawnLocation
     {
         get
@@ -16,8 +15,6 @@ public class Pool : MonoBehaviour
             return itemSpawnLocation;
         }
     }
-    
-    private Dictionary<PoolingId, List<GameObject>> _pool;
     
     private void Awake()
     {
@@ -56,7 +53,9 @@ public class Pool : MonoBehaviour
         for (var i = 0; i < item.PooledAmount; i++)
         {
             var newObject = Instantiate(item.GameObjectToPool, itemSpawnLocation, Quaternion.identity);
+            
             newObject.SetActive(false);
+            
             list.Add(newObject);
         }
     }
@@ -67,6 +66,7 @@ public class Pool : MonoBehaviour
         var newObject = Instantiate(item.GameObjectToPool, itemSpawnLocation, Quaternion.identity);
         
         newObject.SetActive(false);
+        
         list.Add(newObject);
 
         return newObject;
@@ -86,11 +86,13 @@ public class Pool : MonoBehaviour
             if (!item.activeInHierarchy)
             {
                 item.SetActive(true);
+                
                 return item;
             }
         }
         
         var gameObj = CreateObject(GetPoolItem(poolingId));
+        
         gameObj.SetActive(true);
 
         return gameObj;

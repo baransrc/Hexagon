@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(GameManager))]
 public class FallManager : MonoBehaviour
@@ -8,7 +6,7 @@ public class FallManager : MonoBehaviour
     private GameManager _gameManager;
     private Grid _grid;
     
-    [SerializeField] private float _timeToFallOneCell;
+    [SerializeField] private float timeToFallOneCell;
 
     public bool Falling { get; private set; }
 
@@ -39,22 +37,26 @@ public class FallManager : MonoBehaviour
 
                 cell.Hexagon = null;
 
-                if (hexagon.Cell == null || lowestEmptyCell.Id != hexagon.Cell.Id) // A change occurs.
+                if (hexagon.Cell == null || lowestEmptyCell.Id != hexagon.Cell.Id)
                 {
                     _gameManager.Changed = true;
                 }
                 
                 hexagon.Cell = lowestEmptyCell;
                 hexagon.Cell.Hexagon = hexagon;
-                
-                if (hexagon.Cell.LocalPosition != hexagon.LocalPosition)
+
+                if (hexagon.Cell.LocalPosition == hexagon.LocalPosition)
                 {
-                    Falling = true;
-                    var deltaY = hexagon.LocalPosition.y - hexagon.Cell.LocalPosition.y;
-                    deltaY = deltaY < 0.5f ? deltaY : 0.5f;
-                    hexagon.LocalPosition = Vector3.Lerp(hexagon.LocalPosition, hexagon.Cell.LocalPosition, Time.deltaTime /
-                        (_timeToFallOneCell * deltaY));
+                    continue;
                 }
+                
+                Falling = true;
+                    
+                var deltaY = hexagon.LocalPosition.y - hexagon.Cell.LocalPosition.y;
+                deltaY = deltaY < 0.5f ? deltaY : 0.5f;
+                    
+                hexagon.LocalPosition = Vector3.Lerp(hexagon.LocalPosition, hexagon.Cell.LocalPosition, Time.deltaTime /
+                    (timeToFallOneCell * deltaY));
             }
         }
     }

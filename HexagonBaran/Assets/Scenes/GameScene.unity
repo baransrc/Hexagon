@@ -396,6 +396,7 @@ GameObject:
   - component: {fileID: 164707793}
   - component: {fileID: 164707794}
   - component: {fileID: 164707795}
+  - component: {fileID: 164707796}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -429,20 +430,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165f76e6f76020b42be12cf1a22cf2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridWidth: 8
-  _gridHeight: 9
-  _hexagonOuterOffset: 0.1
-  _hexagonUnitSize: 1
-  _hexagonFallOffset: 10
-  _touchPointPrefab: {fileID: 9180986051363437920, guid: 2229f1df3c0796a44b9cc210b0b72f06,
+  allowedColors: 0000000001000000020000000300000004000000
+  gridWidth: 8
+  gridHeight: 9
+  hexagonBombSpawningFrequency: 1000
+  hexagonOuterOffset: 0.1
+  hexagonUnitSize: 1
+  hexagonFallOffset: 10
+  cellPrefab: {fileID: 8291618590747419505, guid: 70fa55c686e1a324591c8f65c4c48d15,
     type: 3}
-  _cellPrefab: {fileID: 8291618590747419505, guid: 70fa55c686e1a324591c8f65c4c48d15,
-    type: 3}
-  _allowedColors: 00000000010000000200000003000000
-  _touchManager: {fileID: 784673491}
+  touchPointManager: {fileID: 164707796}
+  touchManager: {fileID: 784673491}
   scoreManager: {fileID: 1343418637}
   cameraShake: {fileID: 519420030}
-  bombSpawningFrequency: 1000
 --- !u!114 &164707794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,21 +455,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6813899d0ce959d449a3c6559b0795ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorPalette:
-  - Color: 0
-    RGBA: {r: 0, g: 0.8117647, b: 1, a: 1}
-  - Color: 1
-    RGBA: {r: 0.47450984, g: 0.83921576, b: 0.058823533, a: 1}
-  - Color: 2
-    RGBA: {r: 0.8862746, g: 0.13333334, b: 0.28627452, a: 1}
-  - Color: 3
-    RGBA: {r: 1, g: 0.34117648, b: 0.20000002, a: 1}
-  - Color: 4
-    RGBA: {r: 0.36078432, g: 0.16470589, b: 0.6117647, a: 1}
-  - Color: 5
-    RGBA: {r: 1, g: 0.7607844, b: 0, a: 1}
-  - Color: 6
-    RGBA: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+  colorPalette:
+  - color: 0
+    rgba: {r: 0, g: 0.8117647, b: 1, a: 1}
+  - color: 1
+    rgba: {r: 0.47450984, g: 0.83921576, b: 0.058823533, a: 1}
+  - color: 2
+    rgba: {r: 0.8862746, g: 0.13333334, b: 0.28627452, a: 1}
+  - color: 3
+    rgba: {r: 1, g: 0.34117648, b: 0.20000002, a: 1}
+  - color: 4
+    rgba: {r: 0.36078432, g: 0.16470589, b: 0.6117647, a: 1}
+  - color: 5
+    rgba: {r: 1, g: 0.7607844, b: 0, a: 1}
+  - color: 6
+    rgba: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
 --- !u!114 &164707795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,7 +482,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77ba8b5445616641b0b70cefeb8556c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToFallOneCell: 0.15
+  timeToFallOneCell: 0.15
+--- !u!114 &164707796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164707791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afecacd1889b442194a05fc0c5e25fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  touchPointPrefab: {fileID: 9180986051363437920, guid: 2229f1df3c0796a44b9cc210b0b72f06,
+    type: 3}
 --- !u!1 &212499358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,24 +1247,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0bd7d28e8559654584c7e6921446c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsToPool:
-  - _pooledAmount: 100
-    _gameObjectToPool: {fileID: 1319416598336085269, guid: e1b69064ef386cd4095b4037760342cf,
-      type: 3}
-    _poolingId: 0
-  - _pooledAmount: 10
-    _gameObjectToPool: {fileID: 1319416598336085269, guid: 4e7ef9b0dfa5041499764e586a17a774,
-      type: 3}
-    _poolingId: 1
-  - _pooledAmount: 5
-    _gameObjectToPool: {fileID: 4208070697231746726, guid: 23308b15b59f6b1409518e501d522110,
-      type: 3}
-    _poolingId: 2
-  - _pooledAmount: 21
-    _gameObjectToPool: {fileID: 5468451219455555562, guid: b678ee34d0be9974aac5266f47932d71,
-      type: 3}
-    _poolingId: 3
   itemSpawnLocation: {x: 100, y: 100, z: 0}
+  itemsToPool:
+  - pooledAmount: 100
+    gameObjectToPool: {fileID: 1319416598336085269, guid: e1b69064ef386cd4095b4037760342cf,
+      type: 3}
+    poolingId: 0
+  - pooledAmount: 10
+    gameObjectToPool: {fileID: 1319416598336085269, guid: 4e7ef9b0dfa5041499764e586a17a774,
+      type: 3}
+    poolingId: 1
+  - pooledAmount: 5
+    gameObjectToPool: {fileID: 4208070697231746726, guid: 23308b15b59f6b1409518e501d522110,
+      type: 3}
+    poolingId: 2
+  - pooledAmount: 21
+    gameObjectToPool: {fileID: 5468451219455555562, guid: b678ee34d0be9974aac5266f47932d71,
+      type: 3}
+    poolingId: 3
 --- !u!4 &1026979420
 Transform:
   m_ObjectHideFlags: 0

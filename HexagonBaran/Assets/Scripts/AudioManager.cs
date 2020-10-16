@@ -1,48 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource _audioSourceMusic;
-    [SerializeField] private List<SoundObject> _playableSounds;
+    [SerializeField] private AudioSource audioSourceMusic;
+    [SerializeField] private List<SoundObject> playableSounds;
     
-    private static int currentId = 0;
-    private static AudioManager _instance = null;
-    
+    private static int _currentId = 0;
+
     private int _previousState;
-    private int _ID;
 
-    public static AudioManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
+    public static AudioManager Instance { get; private set; }
+    private int ID { get; set; }
 
-        private set
-        {
-            _instance = value;
-        }
-    }
-    
-    public int ID
-    {
-        get
-        {
-            return _ID;
-        }
-
-        private set
-        {
-            _ID = value;
-        }
-    }
-    
     private void Awake()
     {
-        currentId++;
-        ID = currentId;
+        _currentId++;
+        ID = _currentId;
         
         if (Instance  ==  null)
         {
@@ -56,14 +30,14 @@ public class AudioManager : MonoBehaviour
             return;
         }
         
-        _audioSourceMusic.Play();
+        audioSourceMusic.Play();
     }
 
     public void PlaySound(Sounds soundType)
     {
-        if (_playableSounds.Count == 0) return;
+        if (playableSounds.Count == 0) return;
 
-        var soundToPlay = _playableSounds.Find(x => x.SoundType == soundType);
+        var soundToPlay = playableSounds.Find(x => x.SoundType == soundType);
 
         if (soundToPlay.IsPlaying()) soundToPlay.Stop();
 
@@ -72,7 +46,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopSound(Sounds soundType)
     {
-        var soundToPlay = _playableSounds.Find(x => x.SoundType == soundType);
+        var soundToPlay = playableSounds.Find(x => x.SoundType == soundType);
 
         if (soundToPlay.IsPlaying())
         {

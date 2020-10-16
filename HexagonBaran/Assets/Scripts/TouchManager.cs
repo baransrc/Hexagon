@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TouchManager : MonoBehaviour
 {
@@ -25,6 +23,7 @@ public class TouchManager : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
+        
         Input.multiTouchEnabled = false; 
     }
 
@@ -42,6 +41,7 @@ public class TouchManager : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             _touchIsRegistered = true;
+            
             _touchEndPos = mousePosition;
         }
 
@@ -72,6 +72,7 @@ public class TouchManager : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
             {
                 _touchIsRegistered = true;
+                
                 _touchEndPos = touchPosition;
                 
                 return;
@@ -95,29 +96,41 @@ public class TouchManager : MonoBehaviour
         if (direction == Vector2.zero) // This is just a click or touch.
         {
             OnClicked?.Invoke(_touchEndPos);
+            
             return;
         }
 
         if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.y))
         {
             if (direction.x > 0)
+            {
                 OnDraggedRight?.Invoke(); // Debug.Log("Direction is right."); 
+            }
+            
             else
+            {
                 OnDraggedLeft?.Invoke(); // Debug.Log("Direction is left.");
+            }        
         }
 
         else 
         {
             if (direction.y > 0)
+            {
                 OnDraggedUp?.Invoke(); // Debug.Log("Direction is up.");
+            }
+            
             else
+            {
                 OnDraggedDown?.Invoke(); // Debug.Log("Direction is down.");
+            }
         }
     }
 
     private void Update()
     {
         DetectTouch();
+        
         ProcessTouch();
     }
 }

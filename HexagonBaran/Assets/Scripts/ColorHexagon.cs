@@ -1,7 +1,4 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class ColorHexagon : Hexagon
@@ -20,15 +17,15 @@ public class ColorHexagon : Hexagon
 
     public override void Initialize(GameManager gameManager, Colors color)
     {
-        _gameManager = gameManager;
+        GameManager = gameManager;
         
         SetColor(color);
     }
 
-    public void SetColor(Colors color)
+    private void SetColor(Colors color)
     {
         _color = color;
-        _spriteRenderer.color = _gameManager.GetColorRgba(_color);
+        _spriteRenderer.color = GameManager.GetColorRgba(_color);
     }
 
     protected override void Recycle()
@@ -40,7 +37,8 @@ public class ColorHexagon : Hexagon
 
         LocalPosition = Pool.SharedInstance.ItemSpawnLocation;
         
-        _gameManager = null;
+        GameManager = null;
+        
         gameObject.SetActive(false);
     }
 }

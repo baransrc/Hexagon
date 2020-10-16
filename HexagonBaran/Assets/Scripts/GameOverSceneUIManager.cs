@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,14 +20,17 @@ public class GameOverSceneUIManager : MonoBehaviour
         if (lastScore > highScore)
         {
             PlayerPrefs.SetInt(StoredVariables.Highscore, lastScore);
+            
             highScoreText.text = "HIGHSCORE: " + lastScore;
             lastScoreText.text = "NEW HIGHSCORE!";
+            
             AudioManager.Instance.PlaySound(Sounds.Win);
 
             return;
         }
         
         AudioManager.Instance.PlaySound(Sounds.Lose);
+        
         highScoreText.text = "HIGHSCORE: " + highScore;
         lastScoreText.text = "SCORE: " + lastScore;
     }
@@ -38,12 +38,14 @@ public class GameOverSceneUIManager : MonoBehaviour
     public void OnClickPlayAgain()
     {
         AudioManager.Instance.PlaySound(Sounds.Button);
+        
         SceneManager.LoadScene("GameScene");
     }
 
     public void OnClickMenu()
     {
         AudioManager.Instance.PlaySound(Sounds.Button);
+        
         SceneManager.LoadScene("MainMenuScene");
     }
 }
