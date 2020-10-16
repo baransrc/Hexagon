@@ -109,8 +109,8 @@ public class GameManager : MonoBehaviour
     {
         _touchManager.OnDraggedRight += TurnClockwise;
         _touchManager.OnDraggedLeft += TurnCounterClockwise;
-        _touchManager.OnDraggedUp += TurnCounterClockwise;
-        _touchManager.OnDraggedDown += TurnClockwise;
+        _touchManager.OnDraggedUp += TurnClockwise;
+        _touchManager.OnDraggedDown += TurnCounterClockwise;
         _touchManager.OnClicked += ProcessTouch;
     }
 
@@ -118,8 +118,8 @@ public class GameManager : MonoBehaviour
     {
         _touchManager.OnDraggedRight -= TurnClockwise;
         _touchManager.OnDraggedLeft -= TurnCounterClockwise;
-        _touchManager.OnDraggedUp -= TurnCounterClockwise;
-        _touchManager.OnDraggedDown -= TurnClockwise;
+        _touchManager.OnDraggedUp -= TurnClockwise;
+        _touchManager.OnDraggedDown -= TurnCounterClockwise;
         _touchManager.OnClicked -= ProcessTouch;
     }
 

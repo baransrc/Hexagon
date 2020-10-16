@@ -17,7 +17,7 @@ public class CameraSizeManager : MonoBehaviour
 
    private void AdjustSize()
    {
-      if (_camera.aspect >= Aspect9X16)
+      if (_camera.aspect > Aspect9X16)
       {
          return;
       }
