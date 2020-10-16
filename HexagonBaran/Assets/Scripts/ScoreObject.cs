@@ -20,6 +20,8 @@ public class ScoreObject : MonoBehaviour
     [SerializeField] private float scaleLerpMultiplier;
     
     [SerializeField] private float duration;
+
+    [SerializeField] private AudioSource audioSource;
     
     private Vector3 initialPosition;
     
@@ -32,16 +34,29 @@ public class ScoreObject : MonoBehaviour
         StartCoroutine(ShowScoreCoroutine());
     }
     
-    
     private IEnumerator ShowScoreCoroutine()
     {
         var step = 0f;
 
         endPosition.x = Random.Range(-3f, 3f);
+
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+
+        var playedAudio = false;
+
         while (step < 1f)
         {
             step += Time.deltaTime / duration;
 
+            if (step >= 0.1f && !playedAudio)
+            {
+                audioSource.Play();
+                playedAudio = true;
+            }
+            
             scoreText.color = Color.Lerp(initialColor,
                 endColor,
                 step * colorLerpMultiplier);
@@ -55,7 +70,7 @@ public class ScoreObject : MonoBehaviour
             
             yield return 0;
         }
-
+        
         Recycle();
     }
     

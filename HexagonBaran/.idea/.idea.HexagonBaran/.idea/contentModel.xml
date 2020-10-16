@@ -7,6 +7,7 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
+          <e p="AudioManager.cs" t="Include" />
           <e p="BombHexagon.cs" t="Include" />
           <e p="CameraShake.cs" t="Include" />
           <e p="Cell.cs" t="Include" />
@@ -28,6 +29,8 @@
           <e p="PoolItem.cs" t="Include" />
           <e p="ScoreManager.cs" t="Include" />
           <e p="ScoreObject.cs" t="Include" />
+          <e p="SoundObject.cs" t="Include" />
+          <e p="Sounds.cs" t="Include" />
           <e p="StoredVariables.cs" t="Include" />
           <e p="TouchManager.cs" t="Include" />
           <e p="TouchPoint.cs" t="Include" />

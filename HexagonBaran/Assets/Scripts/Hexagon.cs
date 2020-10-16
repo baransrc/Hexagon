@@ -63,6 +63,8 @@ public abstract class Hexagon : MonoBehaviour
             
             var endPosition = Cell.LocalPosition;
 
+            AudioManager.Instance.PlaySound(Sounds.Turn);
+            
             while (step < 1f)
             {
                 step += Time.deltaTime / durationOneCell;

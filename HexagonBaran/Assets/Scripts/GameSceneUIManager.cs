@@ -20,6 +20,7 @@ public class GameSceneUIManager : MonoBehaviour
 
     public void OnClickPauseButton()
     {
+        AudioManager.Instance.PlaySound(Sounds.Button);
         gameManager.Paused = true;
         StartCoroutine(EnablePauseMenu());
     }
@@ -64,11 +65,13 @@ public class GameSceneUIManager : MonoBehaviour
     
     public void OnClickContinue()
     {
+        AudioManager.Instance.PlaySound(Sounds.Button);
         StartCoroutine(DisablePauseMenu());
     }
 
     public void OnClickExit()
     {
+        AudioManager.Instance.PlaySound(Sounds.Button);
         gameManager.EndGame();
     }
 }

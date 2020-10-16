@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class ExplosionParticle : MonoBehaviour
 {
     [SerializeField] private ParticleSystem explosionParticle;
+    [SerializeField] private AudioSource audioSource;
     
     public void Play(Color color, Vector3 position)
     {
@@ -15,6 +16,13 @@ public class ExplosionParticle : MonoBehaviour
         var main = explosionParticle.main;
 
         main.startColor = color;
+
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        
+        audioSource.Play();
 
         StopAllCoroutines();
         

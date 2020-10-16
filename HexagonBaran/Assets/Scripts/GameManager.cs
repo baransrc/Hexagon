@@ -311,6 +311,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlaySound(Sounds.Click);
+        
         var touchPointGameObject = hit2D.collider.gameObject;
         
         if (!touchPointGameObject.CompareTag("TouchPoint"))
