@@ -18,11 +18,11 @@ public class FallManager : MonoBehaviour
         _grid = _gameManager.Grid;
         Falling = false;
     }
-
+    
     public void Fall()
     {
         Falling = false;
-        
+
         for (var j = 0; j < _grid.Height; j++)
         {
             for (var i = 0; i < _grid.Width; i++)

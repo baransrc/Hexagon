@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         _touchManager.OnClicked -= ProcessTouch;
     }
 
-    private void LookForMatches()
+    private bool LookForMatches()
     {
         var cellsToExplode = new Dictionary<int, Cell>();
         
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
 
         if (scoreToAdd == 0)
         {
-            return;
+            return false;
         }
         
         cameraShake.TriggerShake();
@@ -139,6 +139,8 @@ public class GameManager : MonoBehaviour
         Score += scoreToAdd;
         
         Pool.SharedInstance.GetPooledObject(PoolingId.ScoreObject).GetComponent<ScoreObject>().ShowScore(scoreToAdd);
+
+        return true;
     }
 
     public int GetInitialBombCounterValue()
@@ -205,7 +207,7 @@ public class GameManager : MonoBehaviour
                 if (touchPointsContainingCell.Exists(touchPoint => touchPoint.CellsHaveSameColoredHexagons()))
                 {
                     stopTurning = true;
-                    continue;
+                    break;
                 }
             }
 
@@ -377,7 +379,7 @@ public class GameManager : MonoBehaviour
                 
                 var hexagon = GetHexagonByScore();
 
-                hexagon.Initialize(this, GetRandomColor());
+                hexagon.Initialize(this, GetRandomColor()); // Use (Colors)((j + i)%7) as Colors argument to check for lose condition with no movements left.
 
                 hexagon.LocalPosition = GetPositionByIndex(i, j + _hexagonFallOffset) - offset;
 
@@ -580,14 +582,101 @@ public class GameManager : MonoBehaviour
         return new Vector3(i * (_hexagonInnerOffset * 3f + _hexagonOuterOffset), (j * (_hexagonHeight * 0.5f + _hexagonOuterOffset)) + (((i + 1) % 2) * (_hexagonHeight * 0.25f + _hexagonOuterOffset * 0.5f)));
     }
     
+    private bool DetermineIfThereAreMovesLeft()
+    {
+        var foundPossibleMatch = false;
+        
+        foreach (var touchPoint in _touchPoints)
+        {
+            var cells = touchPoint.GetCells();
+            
+            var initialHexagons = new List<Hexagon>();
+
+            for (var j = 0; j < cells.Length; j++)
+            {
+                var hexagons = new List<Hexagon>();
+            
+                foreach (var cell in cells)
+                {
+                    hexagons.Add(cell.Hexagon);
+
+                    if (j != 0)
+                    {
+                        continue;
+                    }
+                    
+                    initialHexagons.Add(cell.Hexagon);
+                }
+
+                for (var i = 0; i < hexagons.Count; i++)
+                {
+                    var next = (i + 1) % hexagons.Count;
+                    var current = hexagons[next];
+
+                    cells[i].Hexagon = current;
+                }
+
+                var stopTurning = false;
+            
+                foreach (var cell in cells)
+                {
+                    var touchPointsContainingCell = _touchPointsByCellId[cell.Id];
+                    if (touchPointsContainingCell.Exists(x => x.CellsHaveSameColoredHexagons()))
+                    {
+                        stopTurning = true;
+                        foundPossibleMatch = true;
+                        break;
+                    }
+                }
+
+                if (stopTurning)
+                {
+                    break;
+                }
+            }
+
+            for (var index = 0; index < cells.Length; index++)
+            {
+                var cell = cells[index];
+                cell.Hexagon = initialHexagons[index];
+            }
+
+            if (foundPossibleMatch)
+            {
+                break;
+            }
+        }
+
+        return foundPossibleMatch;
+    }
+
+    
     private void Match()
     {
         if (!_fallManager.Falling && _movementLock < 1 && Changed)
         {
-            LookForMatches(); // There is an unnecessary execution of this because of one of the booleans.
+            var foundMatches = LookForMatches();
             scoreManager.DisplayScore(Score);
+
+            if (!foundMatches)
+            {
+                var movesLeft = DetermineIfThereAreMovesLeft();
+                
+                Debug.Log(movesLeft);
+            }
+            
             Changed = false;
         }
+    }
+
+    private void Fall()
+    {
+        if (_movementLock > 1)
+        {
+            return;
+        }
+        
+        _fallManager.Fall();
     }
 
     private void EndTurn()
@@ -603,7 +692,7 @@ public class GameManager : MonoBehaviour
     
     private void Update()
     {
-        _fallManager.Fall();
+        Fall();
         
         Fill();
         
