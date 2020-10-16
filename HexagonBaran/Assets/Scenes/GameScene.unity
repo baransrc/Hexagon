@@ -1574,16 +1574,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6251289882799072084, guid: c647bc1b10be9894bb31375b29dda77e,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: e173569c92a5471418326c464f0a5b0a, type: 3}
-    - target: {fileID: 6251289882799072084, guid: c647bc1b10be9894bb31375b29dda77e,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.6
-      objectReference: {fileID: 0}
     - target: {fileID: 6251289882799072086, guid: c647bc1b10be9894bb31375b29dda77e,
         type: 3}
       propertyPath: m_Name
@@ -1644,11 +1634,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6251289884360305627, guid: c647bc1b10be9894bb31375b29dda77e,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: b3bf8aa9abfa95443be61812cec39e84, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c647bc1b10be9894bb31375b29dda77e, type: 3}
 --- !u!1 &1679097770
