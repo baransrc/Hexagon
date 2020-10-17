@@ -176,18 +176,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68894fc19f704297831922d249b49bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSourceMusic: {fileID: 6251289882799072084}
-  _playableSounds:
-  - _soundType: 0
-    _audioSource: {fileID: 6251289883400038072}
-  - _soundType: 1
-    _audioSource: {fileID: 6251289884360305627}
-  - _soundType: 2
-    _audioSource: {fileID: 6251289884049217630}
-  - _soundType: 3
-    _audioSource: {fileID: 6251289882976410941}
-  - _soundType: 4
-    _audioSource: {fileID: 678298932}
+  audioSourceMusic: {fileID: 6251289882799072084}
+  playableSounds:
+  - soundType: 0
+    audioSource: {fileID: 6251289883400038072}
+  - soundType: 1
+    audioSource: {fileID: 6251289884360305627}
+  - soundType: 2
+    audioSource: {fileID: 6251289884049217630}
+  - soundType: 3
+    audioSource: {fileID: 6251289882976410941}
+  - soundType: 4
+    audioSource: {fileID: 678298932}
 --- !u!82 &6251289882799072084
 AudioSource:
   m_ObjectHideFlags: 0

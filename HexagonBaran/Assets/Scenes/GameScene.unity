@@ -547,8 +547,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc32c3a3669e464cbc5a55ee81a97ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _refreshInterval: 0.5
-  _showMinMax: 0
+  refreshInterval: 0.5
+  showMinMax: 0
 --- !u!114 &212499361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,7 +837,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 0
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 0
